@@ -54,8 +54,8 @@ frappe.ui.form.on('Product Order Details', {
 
 	function generate() {
 	    frm.doc.src = tag.lastChild.src;
-	    frm.doc.selected_doc = parseInt(frm.selected_doc.idx) - 1
-	    console.log(frm.doc.product_details[frm.doc.selected_doc]);
+	    // frm.doc.selected_doc = parseInt(frm.selected_doc.idx) - 1
+	    // console.log(frm.doc.product_details[frm.doc.selected_doc]);
 	    frm.print_doc();
 	}
 	
