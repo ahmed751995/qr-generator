@@ -50,7 +50,7 @@ frappe.ui.form.on('Product Order Details', {
 	let values = JSON.stringify({"data": frm.selected_doc});
 	console.log(values);
 	new QRCode(tag, values);
-	const x = setTimeout(generate, 100);
+	const x = setTimeout(generate, 200);
 
 	function generate() {
 	    frm.doc.src = tag.lastChild.src;
