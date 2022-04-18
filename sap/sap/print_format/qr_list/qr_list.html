@@ -242,35 +242,29 @@
 	    </style>
 	  </head>
 	  <body>
-<style>
-  .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-</style>
-<div class="container">
-  <h1  class="text-center">Product {{doc.document_no}}</h1>
-  <div class="row">
-    {% for s in doc.qr_code %}
-      <img class="center thumbnail img-responsive" src="https://barcode.tec-it.com/barcode.ashx?data={
-	    'row_no': {{s.row_no}},
-	    'document_no': {{doc.document_no}},
-	    'item_no': {{doc.item_no}},
-	    'custom_no': {{doc.customer_no}},
-	    'customer_name': {{doc.customer_name}},
-	    'quantity': {{s.quantity}},
-	    'length': {{doc.length}},
-	    'width': {{doc.width}},
-	    'thickness': {{doc.thickness}},
-	    'core_type': {{doc.core_type}},
-	    'net_wieght': {{s.net_weight}},
-	    'bullet_no': {{s.bullet_no}},
-	    'application': {{doc.application}},
-	    'roll_status': {{s.roll_status}},
-	}&code=QRCode" >
-    {% endfor %}
-   
-  </div>
-</div>
+	    <div class="container">
+	      <h1  class="text-center">Product {{doc.document_no}}</h1>
+	      <div class="row">
+		{% for s in doc.product_details %}
+		<div class="column col-4">
+		  <p class="text-center">{{s.row_no}}</p>
+		  <img class="thumbnail img-responsive" src="https://barcode.tec-it.com/barcode.ashx?data={
+							     'row_no': {{s.row_no}},
+							     'document_no': {{doc.document_no}},
+							     'item_no': {{doc.item_no}},
+							     'custom_no': {{doc.customer_no}},
+							     'customer_name': {{doc.customer_name}},
+							     'quantity': {{s.quantity}},
+							     'length': {{doc.length}},
+							     'width': {{doc.width}},
+							     'thickness': {{doc.thickness}},
+							     'core_type': {{doc.core_type}},
+							     'net_wieght': {{s.net_weight}},
+							     'bullet_no': {{s.bullet_no}},
+							     'application': {{doc.application}},
+							     'roll_status': {{s.roll_status}},
+							     }&code=QRCode" >
+		</div>
+		{% endfor %}
+	      </div>
+	    </div>

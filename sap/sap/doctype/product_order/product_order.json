@@ -31,7 +31,7 @@
   "generate",
   "item_details_section",
   "product_details",
-  "qr_src",
+  "qr_code",
   "section_break_26",
   "print_qr",
   "column_break_28",
@@ -63,12 +63,6 @@
    "fieldname": "item_serial",
    "fieldtype": "Data",
    "label": "Item Serial"
-  },
-  {
-   "fieldname": "qr_src",
-   "fieldtype": "Attach Image",
-   "hidden": 1,
-   "label": "QR src"
   },
   {
    "fieldname": "document_no",
@@ -186,11 +180,17 @@
    "fieldname": "send_to_sap",
    "fieldtype": "Button",
    "label": "Send to SAP"
+  },
+  {
+   "fieldname": "qr_code",
+   "fieldtype": "Table",
+   "label": "QR Code",
+   "options": "qr code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-18 11:57:36.005300",
+ "modified": "2022-04-18 14:09:36.364158",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

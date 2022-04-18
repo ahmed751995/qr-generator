@@ -19,19 +19,26 @@ frappe.ui.form.on('Product Order', {
 	refresh_field('product_details');
     },
      send_to_sap: function(frm) {
-	 // frm.doc.product_details.forEach((product) => {
-	 //     product.item_status = "Sent to SAP";
-	 // });
+	 frm.doc.product_details.forEach((product) => {
+	     product.item_status = "Sent to SAP";
+	 });
 	 // frm.set_df_property("product_details", "read_only", 1);
-	 // refresh_field("product_details");
-	 frappe.print_format.print_by_server(frm.doc)
-	 
+	 Object.keys(frm.doc).forEach(doc => {
+	     frm.set_df_property(doc, "read_only", 1);
+	 });
+	 refresh_field("product_details");
+	 frm.save();
      },
     print_qr: function(frm) {
-	frm.doc.src = 0;
-	frm.save();
-	frm.print_doc();
-	console.log(frm.doc.src)
+	frappe.call({
+	    method: 'sap.api.print_qr_list',
+	    args: {
+		doc: frm.doc.name
+	    },
+	    callback: function(r) {
+		PrintElem(r.message)
+	    }
+	})
     }
     
 });
@@ -71,25 +78,40 @@ frappe.ui.form.on('Product Order Details', {
     },
 
     print_code: function(frm) {
-	let tag = document.createElement("div");
-	let qr_data = {
-	    'row_no': frm.selected_doc.row_no,
-	    'document_no': frm.doc.document_no,
-	    'item_no': frm.doc.item_no,
-	    'custom_no': frm.doc.customer_no,
-	    'customer_name': frm.doc.customer_name,
-	    'quantity': frm.selected_doc.quantity,
-	    'length': frm.doc.length,
-	    'width': frm.doc.width,
-	    'thickness': frm.doc.thickness,
-	    'core_type': frm.doc.core_type,
-	    'net_wieght': frm.selected_doc.net_weight,
-	    'bullet_no': frm.selected_doc.bullet_no,
-	    'application': frm.doc.application,
-	    'roll_status': frm.selected_doc.roll_status,
-	}
-	frm.doc.src = frm.selected_doc.idx;
-	frm.save()
-	frm.print_doc();
+	frm.doc.qr_code = [];
+	frm.add_child('qr_code', {
+	    quantity: frm.selected_doc.quantity,
+	    row_no: frm.selected_doc.row_no,
+	    net_weight: frm.selected_doc.net_weight,
+	    bullet_no: frm.selected_doc.bullet_no,
+	    roll_status: frm.selected_doc.roll_status
+	});
+	refresh_field('qr_code');
+	frm.save();
+	frappe.call({
+	    method: 'sap.api.print_qr',
+	    args: {
+		doc: frm.doc.name
+	    },
+	    callback: function(r) {
+		PrintElem(r.message)
+	    }
+	})
     }
 });
+
+function PrintElem(elem)
+{
+    var mywindow = window.open('', 'PRINT');
+
+
+    mywindow.document.write(elem);
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
