@@ -1,78 +1,52 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:product_order",
+ "autoname": "PO-.######",
  "creation": "2022-03-03 11:16:53.013679",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "product_order",
-  "product_status",
-  "product_date",
-  "sales_order",
+  "order_information_section",
+  "document_no",
+  "item_no",
+  "column_break_3",
   "customer_no",
-  "item_section",
+  "customer_name",
+  "item_information_section",
+  "quantity",
+  "length",
+  "width",
   "item_serial",
   "weight",
-  "height",
-  "roll_number",
+  "column_break_10",
+  "thickness",
+  "core_type",
+  "core_weight",
+  "total_weight",
+  "application",
+  "section_break_18",
+  "roll_information_section",
+  "rolls_no",
   "generate",
-  "details_section",
+  "item_details_section",
   "product_details",
-  "qr_src"
+  "qr_src",
+  "section_break_26",
+  "print_qr",
+  "column_break_28",
+  "send_to_sap"
  ],
  "fields": [
-  {
-   "fieldname": "product_order",
-   "fieldtype": "Data",
-   "label": "Product Order",
-   "unique": 1
-  },
-  {
-   "fieldname": "product_status",
-   "fieldtype": "Data",
-   "label": "Product Status"
-  },
-  {
-   "fieldname": "product_date",
-   "fieldtype": "Date",
-   "label": "Product Date"
-  },
-  {
-   "fieldname": "sales_order",
-   "fieldtype": "Data",
-   "label": "Sales Order"
-  },
   {
    "fieldname": "customer_no",
    "fieldtype": "Data",
    "label": "Customer No"
   },
   {
-   "fieldname": "item_section",
-   "fieldtype": "Section Break",
-   "label": "Item"
-  },
-  {
    "fieldname": "weight",
    "fieldtype": "Data",
    "label": "weight"
-  },
-  {
-   "fieldname": "height",
-   "fieldtype": "Data",
-   "label": "Height"
-  },
-  {
-   "fieldname": "roll_number",
-   "fieldtype": "Int",
-   "label": "Roll Number"
-  },
-  {
-   "fieldname": "details_section",
-   "fieldtype": "Section Break",
-   "label": "Details"
   },
   {
    "fieldname": "product_details",
@@ -95,15 +69,131 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "QR src"
+  },
+  {
+   "fieldname": "document_no",
+   "fieldtype": "Data",
+   "label": "Document No",
+   "unique": 1
+  },
+  {
+   "fieldname": "item_no",
+   "fieldtype": "Data",
+   "label": "Item No"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "Quantity"
+  },
+  {
+   "description": "Meter",
+   "fieldname": "length",
+   "fieldtype": "Data",
+   "label": "Length"
+  },
+  {
+   "description": "Centimeter",
+   "fieldname": "width",
+   "fieldtype": "Data",
+   "label": "Width"
+  },
+  {
+   "description": "Micron",
+   "fieldname": "thickness",
+   "fieldtype": "Data",
+   "label": "Thickness"
+  },
+  {
+   "fieldname": "core_type",
+   "fieldtype": "Data",
+   "label": "Core Type"
+  },
+  {
+   "fieldname": "core_weight",
+   "fieldtype": "Data",
+   "label": "Core Weight"
+  },
+  {
+   "fieldname": "total_weight",
+   "fieldtype": "Data",
+   "label": "Total Weight"
+  },
+  {
+   "fieldname": "application",
+   "fieldtype": "Data",
+   "label": "Application"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rolls_no",
+   "fieldtype": "Int",
+   "label": "Rolls No"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "item_details_section",
+   "fieldtype": "Section Break",
+   "label": "Item Details"
+  },
+  {
+   "fieldname": "section_break_18",
+   "fieldtype": "Section Break",
+   "label": "Roll Information"
+  },
+  {
+   "fieldname": "order_information_section",
+   "fieldtype": "Section Break",
+   "label": "Order Information"
+  },
+  {
+   "fieldname": "roll_information_section",
+   "fieldtype": "Section Break",
+   "label": "Roll Information"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "item_information_section",
+   "fieldtype": "Section Break",
+   "label": "Item Information"
+  },
+  {
+   "fieldname": "section_break_26",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "print_qr",
+   "fieldtype": "Button",
+   "label": "Print QR"
+  },
+  {
+   "fieldname": "column_break_28",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "send_to_sap",
+   "fieldtype": "Button",
+   "label": "Send to SAP"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-03-13 11:38:33.033419",
+ "modified": "2022-04-18 11:57:36.005300",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",
- "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -120,6 +210,5 @@
   }
  ],
  "sort_field": "modified",
- "sort_order": "DESC",
- "states": []
+ "sort_order": "DESC"
 }

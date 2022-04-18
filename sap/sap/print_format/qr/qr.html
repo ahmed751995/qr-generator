@@ -1,3 +1,63 @@
-<p>Product {{doc.name}}</p>
+<style>
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
 
-<img src="{{doc.src}}" alt=""/>
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+
+<div class="container">
+  <h1  class="text-center">Product {{doc.document_no}}</h1>
+  <div class="row">
+    {% if doc.src != 0 %}
+    {% set r = doc.product_details[doc.src - 1] %}
+    <p>{{ r.row_no }}</p>
+    <img class="thumbnail img-responsive" src="https://barcode.tec-it.com/barcode.ashx?data={
+	    'row_no': {{ r.row_no}},
+	    'document_no': {{doc.document_no}},
+	    'item_no': {{doc.item_no}},
+	    'custom_no': {{doc.customer_no}},
+	    'customer_name': {{doc.customer_name}},
+	    'quantity': {{ r.quantity}},
+	    'length': {{doc.length}},
+	    'width': {{doc.width}},
+	    'thickness': {{doc.thickness}},
+	    'core_type': {{doc.core_type}},
+	    'net_wieght': {{ r.net_weight}},
+	    'bullet_no': {{ r.bullet_no}},
+	    'application': {{doc.application}},
+	    'roll_status': {{ r.roll_status}},
+	    }&code=QRCode" >
+    {% else %}
+    
+    {% for s in doc.product_details %}
+    <div class="column col-4 col-no-padding">
+      <p>{{s.bullet_no}}</p>
+      <img class="thumbnail img-responsive" src="https://barcode.tec-it.com/barcode.ashx?data={
+	    'row_no': {{s.row_no}},
+	    'document_no': {{doc.document_no}},
+	    'item_no': {{doc.item_no}},
+	    'custom_no': {{doc.customer_no}},
+	    'customer_name': {{doc.customer_name}},
+	    'quantity': {{s.quantity}},
+	    'length': {{doc.length}},
+	    'width': {{doc.width}},
+	    'thickness': {{doc.thickness}},
+	    'core_type': {{doc.core_type}},
+	    'net_wieght': {{s.net_weight}},
+	    'bullet_no': {{s.bullet_no}},
+	    'application': {{doc.application}},
+	    'roll_status': {{s.roll_status}},
+	}&code=QRCode" >
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+</div>

@@ -6,23 +6,17 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "serial_no",
-  "weight",
+  "row_no",
+  "quantity",
+  "net_weight",
   "measure",
   "bullet_no",
-  "print_code"
+  "roll_status",
+  "print_code",
+  "scaler",
+  "item_status"
  ],
  "fields": [
-  {
-   "fieldname": "serial_no",
-   "fieldtype": "Data",
-   "label": "Serial No"
-  },
-  {
-   "fieldname": "weight",
-   "fieldtype": "Data",
-   "label": "Weight"
-  },
   {
    "fieldname": "bullet_no",
    "fieldtype": "Data",
@@ -31,24 +25,58 @@
   {
    "fieldname": "measure",
    "fieldtype": "Button",
-   "label": "measure"
+   "label": "Measure"
   },
   {
    "fieldname": "print_code",
    "fieldtype": "Button",
    "label": "Print Code"
+  },
+  {
+   "fieldname": "row_no",
+   "fieldtype": "Data",
+   "label": "Row No"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "net_weight",
+   "fieldtype": "Data",
+   "label": "Net Weight"
+  },
+  {
+   "fieldname": "roll_status",
+   "fieldtype": "Select",
+   "label": "Roll Status",
+   "options": "Accepted\nRejected"
+  },
+  {
+   "fieldname": "scaler",
+   "fieldtype": "Link",
+   "label": "Scaler",
+   "options": "Scaler"
+  },
+  {
+   "default": "Open",
+   "fieldname": "item_status",
+   "fieldtype": "Select",
+   "label": "Item Status",
+   "options": "Open\nWaited\nPrinted\nWaiting Quality\nInspected\nSent to SAP"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-03-13 10:49:36.989811",
+ "modified": "2022-04-14 15:14:33.079808",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order Details",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",
- "sort_order": "DESC",
- "states": []
+ "sort_order": "DESC"
 }
