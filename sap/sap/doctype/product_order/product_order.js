@@ -1,7 +1,6 @@
 // Copyright (c) 2022, ahmed and contributors
 // For license information, please see license.txt
 frappe.require([
-    '/assets/sap/js/qrcode.js',
     'assets/test_mqtt/js/mqtt.min.js'
 ]);
 frappe.ui.form.on('Product Order', {
@@ -12,9 +11,6 @@ frappe.ui.form.on('Product Order', {
 	    frm.add_child('product_details', {
 		quantity: parseFloat(frm.doc.quantity / items),
 	    });
-	    // frm.add_custom_button('item_section', {
-	    // 	'label': i,
-	    // });
 	}
 	refresh_field('product_details');
     },
@@ -22,7 +18,6 @@ frappe.ui.form.on('Product Order', {
 	 frm.doc.product_details.forEach((product) => {
 	     product.item_status = "Sent to SAP";
 	 });
-	 // frm.set_df_property("product_details", "read_only", 1);
 	 Object.keys(frm.doc).forEach(doc => {
 	     frm.set_df_property(doc, "read_only", 1);
 	 });
@@ -73,25 +68,21 @@ frappe.ui.form.on('Product Order Details', {
 	    refresh_field('product_details')
 	    client.unsubscribe(frm.selected_doc.scaler)
 	})
-	//     }
-
     },
 
     print_code: function(frm) {
-	frm.doc.qr_code = [];
-	frm.add_child('qr_code', {
-	    quantity: frm.selected_doc.quantity,
-	    row_no: frm.selected_doc.row_no,
-	    net_weight: frm.selected_doc.net_weight,
-	    bullet_no: frm.selected_doc.bullet_no,
-	    roll_status: frm.selected_doc.roll_status
-	});
-	refresh_field('qr_code');
-	frm.save();
+	let qr_data = {...frm.doc,
+		       'item_quantity': frm.selected_doc.quantity,
+		       'item_row_no': frm.selected_doc.row_no,
+		       'item_net_weight': frm.selected_doc.net_weight,
+		       'item_bullet_no': frm.selected_doc.bullet_no,
+		       'item_roll_status': frm.selected_doc.roll_status
+		      }
+	frm.save()
 	frappe.call({
 	    method: 'sap.api.print_qr',
 	    args: {
-		doc: frm.doc.name
+		doc: qr_data
 	    },
 	    callback: function(r) {
 		PrintElem(r.message)
@@ -103,10 +94,7 @@ frappe.ui.form.on('Product Order Details', {
 function PrintElem(elem)
 {
     var mywindow = window.open('', 'PRINT');
-
-
     mywindow.document.write(elem);
-
     mywindow.document.close(); // necessary for IE >= 10
     mywindow.focus(); // necessary for IE >= 10*/
 

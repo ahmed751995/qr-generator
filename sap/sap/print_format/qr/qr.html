@@ -253,24 +253,21 @@
 <div class="container">
   <h1  class="text-center">Product {{doc.document_no}}</h1>
   <div class="row">
-    {% for s in doc.qr_code %}
       <img class="center thumbnail img-responsive" src="https://barcode.tec-it.com/barcode.ashx?data={
-	    'row_no': {{s.row_no}},
+	    'row_no': {{doc.item_row_no}},
 	    'document_no': {{doc.document_no}},
 	    'item_no': {{doc.item_no}},
 	    'custom_no': {{doc.customer_no}},
 	    'customer_name': {{doc.customer_name}},
-	    'quantity': {{s.quantity}},
+	    'quantity': {{doc.item_quantity}},
 	    'length': {{doc.length}},
 	    'width': {{doc.width}},
 	    'thickness': {{doc.thickness}},
 	    'core_type': {{doc.core_type}},
-	    'net_wieght': {{s.net_weight}},
-	    'bullet_no': {{s.bullet_no}},
+	    'net_wieght': {{doc.item_net_weight}},
+	    'bullet_no': {{doc.item_bullet_no}},
 	    'application': {{doc.application}},
-	    'roll_status': {{s.roll_status}},
-	}&code=QRCode" >
-    {% endfor %}
-   
+	    'roll_status': {{doc.item_roll_status}},
+	}&code=QRCode" >   
   </div>
 </div>
