@@ -1,7 +1,7 @@
 // Copyright (c) 2022, ahmed and contributors
 // For license information, please see license.txt
 frappe.require([
-    'assets/test_mqtt/js/mqtt.min.js'
+    'assets/sap/js/mqtt.min.js'
 ]);
 frappe.ui.form.on('Product Order', {
     
