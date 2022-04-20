@@ -34,7 +34,8 @@
   "section_break_26",
   "print_qr",
   "column_break_28",
-  "send_to_sap"
+  "send_to_sap",
+  "selected_qr"
  ],
  "fields": [
   {
@@ -179,11 +180,17 @@
    "fieldname": "send_to_sap",
    "fieldtype": "Button",
    "label": "Send to SAP"
+  },
+  {
+   "fieldname": "selected_qr",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "selected qr"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-19 10:13:12.179332",
+ "modified": "2022-04-20 10:55:34.509563",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

@@ -3,6 +3,7 @@
 frappe.require([
     'assets/sap/js/mqtt.min.js'
 ]);
+
 frappe.ui.form.on('Product Order', {
     
     generate: function(frm) {
@@ -23,19 +24,7 @@ frappe.ui.form.on('Product Order', {
 	 });
 	 refresh_field("product_details");
 	 frm.save();
-     },
-    print_qr: function(frm) {
-	frappe.call({
-	    method: 'sap.api.print_qr_list',
-	    args: {
-		doc: frm.doc.name
-	    },
-	    callback: function(r) {
-		PrintElem(r.message)
-	    }
-	})
-    }
-    
+     },    
 });
 
 frappe.ui.form.on('Product Order Details', {
@@ -69,37 +58,23 @@ frappe.ui.form.on('Product Order Details', {
 	    client.unsubscribe(frm.selected_doc.scaler)
 	})
     },
-
-    print_code: function(frm) {
-	let qr_data = {...frm.doc,
-		       'item_quantity': frm.selected_doc.quantity,
-		       'item_row_no': frm.selected_doc.row_no,
-		       'item_net_weight': frm.selected_doc.net_weight,
-		       'item_bullet_no': frm.selected_doc.bullet_no,
-		       'item_roll_status': frm.selected_doc.roll_status
-		      }
-	frm.save()
-	frappe.call({
-	    method: 'sap.api.print_qr',
-	    args: {
-		doc: qr_data
-	    },
-	    callback: function(r) {
-		PrintElem(r.message)
+    print_qr: function(frm) {
+	// frm.doc.selected_row = frm.selected_doc.idx;
+	let row = frm.selected_doc.idx;
+	if(frm.doc.__unsaved == 1) {
+	    frm.save();
+	}
+	async function wait_saving() {
+	    while(frm.doc.__unsaved == 1) {
+		await sleep(500);
 	    }
-	})
-    }
+	    frm.doc.selected_qr = frm.doc.product_details[row - 1].qr_code
+	    frm.print_doc();
+	}
+	wait_saving();
+    },
 });
 
-function PrintElem(elem)
-{
-    var mywindow = window.open('', 'PRINT');
-    mywindow.document.write(elem);
-    mywindow.document.close(); // necessary for IE >= 10
-    mywindow.focus(); // necessary for IE >= 10*/
-
-    mywindow.print();
-    mywindow.close();
-
-    return true;
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

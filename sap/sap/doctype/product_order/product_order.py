@@ -1,8 +1,22 @@
 # Copyright (c) 2022, ahmed and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
+from sap.qr_generator import get_qr
 
 class ProductOrder(Document):
-	pass
+	def before_save(self):
+            print(self.product_details[0].as_dict())
+            for item in self.product_details:
+                data = {
+                    'row_no': item.row_no,
+                    'document_no': self.document_no,
+                    'item_no': self.item_no,
+                    'customer_no': self.customer_no,
+                    'customer_name': self.customer_name,
+                    'quantity': item.quantity,
+                    'length': self.length
+                }
+                
+                item.qr_code = get_qr(data)
