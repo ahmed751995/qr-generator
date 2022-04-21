@@ -32,8 +32,6 @@
   "item_details_section",
   "product_details",
   "section_break_26",
-  "print_qr",
-  "column_break_28",
   "send_to_sap",
   "selected_qr"
  ],
@@ -168,15 +166,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "print_qr",
-   "fieldtype": "Button",
-   "label": "Print QR"
-  },
-  {
-   "fieldname": "column_break_28",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "send_to_sap",
    "fieldtype": "Button",
    "label": "Send to SAP"
@@ -190,7 +179,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-20 10:55:34.509563",
+ "modified": "2022-04-21 12:35:20.533686",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",
