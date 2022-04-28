@@ -13,7 +13,7 @@
  "is_standard": 1,
  "label": "Sap Integration",
  "links": [],
- "modified": "2022-04-19 10:49:34.737978",
+ "modified": "2022-04-28 15:23:01.796898",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Sap Integration",
@@ -37,6 +37,12 @@
    "doc_view": "List",
    "label": "Scaler",
    "link_to": "Scaler",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Quality Control",
+   "link_to": "Quality Control",
    "type": "DocType"
   }
  ]

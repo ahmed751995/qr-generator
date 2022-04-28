@@ -8,23 +8,24 @@ frappe.ui.form.on('Product Order', {
     
     generate: function(frm) {
 	let items = parseInt(frm.doc.rolls_no);
-	for(let i = 0; i < items; i++) {
+	let index = frm.doc.product_details.length;
+	for(let i = index; i < items + index; i++) {
 	    frm.add_child('product_details', {
 		quantity: parseFloat(frm.doc.quantity / items),
-		row_no: `${frm.doc.document_no}-${i}`,
+		row_no: `${frm.doc.document_no}-${i+1}`,
 	    });
 	}
 	refresh_field('product_details');
     },
      send_to_sap: function(frm) {
 	 frm.doc.product_details.forEach((product) => {
-	     product.item_status = "Sent to SAP";
+	     frappe.model.set_value('Product Order Details', product.name,'item_status', "Sent to SAP")
+	     // product.item_status = "Sent to SAP";
 	 });
-	 Object.keys(frm.doc).forEach(doc => {
-	     frm.set_df_property(doc, "read_only", 1);
-	 });
+	 // Object.keys(frm.doc).forEach(doc => {
+	 //     frm.set_df_property(doc, "read_only", 1);
+	 // });
 	 refresh_field("product_details");
-	 frm.save();
      },
     change_roll_status: function(frm) {
 	let d = new frappe.ui.Dialog({
@@ -55,7 +56,7 @@ frappe.ui.form.on('Product Order', {
 		    let rows = values.rows.split(',');
 		    try{
 			for(let r of rows)
-			    items[parseInt(r)-1].roll_status = values.row_status;
+			    items[parseInt(r)-1].quality_status = values.row_status;
 		    } catch(e) {
 			frappe.throw("Check row number")
 		    }
@@ -63,17 +64,17 @@ frappe.ui.form.on('Product Order', {
 		else if(values.selected_but == "bullet_number") {
 		    items.forEach(item => {
 			if(item.bullet_no == values.bullet_no)
-			    item.roll_status = values.row_status;
+			    item.quality_status = values.row_status;
 		    });
 		}
 		else if(values.selected_but == "select_all") {
 		     for(let i = 0; i < items.length; i++)
-			 items[i].roll_status = values.row_status;
+			 items[i].quality_status = values.row_status;
 		}
 		else {
 		    try {
 			for(let i = values.from_row - 1; i < values.to_row; i++)
-			    items[i].roll_status = values.row_status;
+			    items[i].quality_status = values.row_status;
 		    } catch(e) {
 			frappe.throw("Check row numbers")
 		    }
@@ -115,8 +116,12 @@ frappe.ui.form.on('Product Order', {
 	}
 	d.show();
     },
-    print_selected_bullet: function(frm) {
+    print_selected_bullet: function(frm) { // stop here
 	doc_is_instantiated(frm);
+	frm.doc.product_details.forEach(product => {
+	    frappe.model.set_value('Product Order Details', product.name,'item_status', "Waiting Quality");
+	});
+	
 	if(frm.doc.__unsaved == 1) {
 	    frm.save().then(() => {
 		print_selected_doc(frm);
@@ -126,6 +131,7 @@ frappe.ui.form.on('Product Order', {
 	}
 	
 	function print_selected_doc(frm) {
+	    
 	    frm.doc.selected_product = [];
 	    let i = 1;
 	    frm.doc.product_details.forEach(product => {
@@ -136,7 +142,7 @@ frappe.ui.form.on('Product Order', {
 	    })
 	    frm.print_doc();
 	}
-    }
+    },
 });
 
 frappe.ui.form.on('Product Order Details', {
@@ -173,17 +179,33 @@ frappe.ui.form.on('Product Order Details', {
     print_qr: function(frm) {
 	doc_is_instantiated(frm);
 	let row = frm.selected_doc.idx;
-	if(frm.doc.__unsaved == 1) {
-	    frm.save().then(() => {
-		print_product_details(frm, row);
-	    });
-	} else {
-	    print_product_details(frm, row);
-	}
+	frappe.model.set_value('Product Order Details', frm.selected_doc.name,'item_status', "Waiting Quality")
+	    .then(() => {
+		if(frm.doc.__unsaved == 1) {
+		    frm.save().then(() => {
+			print_product_details(frm, row);
+		    });
+		} else {
+		    print_product_details(frm, row);
+		}
+	    })
+
+
+	// frappe.call({
+	//     method: 'sap.api.send_to_quality',
+	//     args: {
+	// 	'doc': frm.doc.name,
+	// 	'row_no': frm.selected_doc.row_no,
+	// 	'index': frm.selected_doc.idx
+	//     },
+	//     callback: function(r) {
+	// 	console.log("done")
+	//     }
+	// })
 	
 	function print_product_details(frm, row) {
 	    frm.doc.selected_qr = frm.doc.product_details[row - 1].qr_code;
-	    frm.doc.product_details[row-1].item_status = "Printed"
+	    // frm.doc.product_details[row-1].item_status = "Waiting Quality"
 	    refresh_field("product_details")
 	    frm.print_doc();
 	}
@@ -197,11 +219,17 @@ frappe.ui.form.on('Product Order Details', {
 		name: frm.selected_doc.qt_inspection
 	    },
 	    callback: function(r) {
-		frm.selected_doc.roll_status = r.message.status;
+		frm.selected_doc.quality_status = r.message.status;
 		refresh_field("product_details");
 	    }
 	});
 
+    },
+    get_indicator: function (frm) {
+	return [__(frm.doc.product_details.quality_status), {
+	    "Rejected": "red",
+	    "Accepted": "green",
+	}[frm.doc.product_details.quality_status], "quality_status,=," + frm.doc.product_details.quality_status];
     }
 });
 

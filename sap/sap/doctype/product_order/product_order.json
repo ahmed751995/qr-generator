@@ -51,7 +51,7 @@
   {
    "fieldname": "weight",
    "fieldtype": "Data",
-   "label": "weight"
+   "label": "Weight"
   },
   {
    "fieldname": "product_details",
@@ -221,7 +221,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-28 11:20:56.199102",
+ "modified": "2022-04-28 15:31:04.136434",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

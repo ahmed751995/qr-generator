@@ -13,7 +13,7 @@
   "net_weight",
   "scaler",
   "measure",
-  "roll_status",
+  "quality_status",
   "qt_inspection",
   "item_status",
   "print_qr",
@@ -58,14 +58,6 @@
   },
   {
    "columns": 1,
-   "fieldname": "roll_status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Roll Status",
-   "options": "\nAccepted\nRejected"
-  },
-  {
-   "columns": 1,
    "fieldname": "scaler",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -105,12 +97,20 @@
    "in_list_view": 1,
    "label": "Qt Inspection",
    "options": "Quality Inspection"
+  },
+  {
+   "columns": 1,
+   "fieldname": "quality_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Quality Status",
+   "options": "\nAccepted\nRejected"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-04-27 13:48:19.245172",
+ "modified": "2022-04-28 13:25:06.768330",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order Details",
