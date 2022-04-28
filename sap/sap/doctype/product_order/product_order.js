@@ -11,7 +11,7 @@ frappe.ui.form.on('Product Order', {
 	for(let i = 0; i < items; i++) {
 	    frm.add_child('product_details', {
 		quantity: parseFloat(frm.doc.quantity / items),
-		row_no: `${frm.doc.document_no}-${i}`
+		row_no: `${frm.doc.document_no}-${i}`,
 	    });
 	}
 	refresh_field('product_details');
@@ -119,10 +119,10 @@ frappe.ui.form.on('Product Order', {
 	doc_is_instantiated(frm);
 	if(frm.doc.__unsaved == 1) {
 	    frm.save().then(() => {
-		print_selected_doc();
+		print_selected_doc(frm);
 	    });
 	} else {
-	    print_selected_doc();
+	    print_selected_doc(frm);
 	}
 	
 	function print_selected_doc(frm) {
