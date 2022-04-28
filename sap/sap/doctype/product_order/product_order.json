@@ -33,10 +33,14 @@
   "item_details_section",
   "product_details",
   "section_break_26",
-  "change_roll_status",
+  "selected_bullet_no",
+  "print_selected_bullet",
   "column_break_30",
+  "change_roll_status",
   "send_to_sap",
-  "selected_qr"
+  "selected_qr",
+  "section_break_31",
+  "selected_product"
  ],
  "fields": [
   {
@@ -192,11 +196,32 @@
    "fieldname": "change_roll_status",
    "fieldtype": "Button",
    "label": "Change Roll Status"
+  },
+  {
+   "fieldname": "selected_product",
+   "fieldtype": "Table",
+   "hidden": 1,
+   "label": "selected product",
+   "options": "Product Order Details"
+  },
+  {
+   "fieldname": "section_break_31",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "print_selected_bullet",
+   "fieldtype": "Button",
+   "label": "Print Selected Bullet"
+  },
+  {
+   "fieldname": "selected_bullet_no",
+   "fieldtype": "Data",
+   "label": "Bullet Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-28 10:15:55.176119",
+ "modified": "2022-04-28 11:20:56.199102",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

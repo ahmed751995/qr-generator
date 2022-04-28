@@ -7,7 +7,7 @@ from sap.qr_generator import get_qr
 
 class ProductOrder(Document):
 	def before_save(self):
-            print(self.product_details[0].as_dict())
+            self.selected_product = []
             for item in self.product_details:
                 data = {
                     'row_no': item.row_no,

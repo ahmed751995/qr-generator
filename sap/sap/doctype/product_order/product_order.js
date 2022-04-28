@@ -115,6 +115,28 @@ frappe.ui.form.on('Product Order', {
 	}
 	d.show();
     },
+    print_selected_bullet: function(frm) {
+	doc_is_instantiated(frm);
+	if(frm.doc.__unsaved == 1) {
+	    frm.save().then(() => {
+		print_selected_doc();
+	    });
+	} else {
+	    print_selected_doc();
+	}
+	
+	function print_selected_doc(frm) {
+	    frm.doc.selected_product = [];
+	    let i = 1;
+	    frm.doc.product_details.forEach(product => {
+		if(product.bullet_no == frm.doc.selected_bullet_no) {
+		    frm.doc.selected_product.push({...product, idx: i});
+		    i += 1;
+		}
+	    })
+	    frm.print_doc();
+	}
+    }
 });
 
 frappe.ui.form.on('Product Order Details', {
@@ -149,23 +171,24 @@ frappe.ui.form.on('Product Order Details', {
 	})
     },
     print_qr: function(frm) {
-	// frm.doc.selected_row = frm.selected_doc.idx;
+	doc_is_instantiated(frm);
 	let row = frm.selected_doc.idx;
 	if(frm.doc.__unsaved == 1) {
-	    frm.save();
+	    frm.save().then(() => {
+		print_product_details(frm, row);
+	    });
+	} else {
+	    print_product_details(frm, row);
 	}
-	async function wait_saving() {
-	    while(frm.doc.__unsaved == 1) {
-		await sleep(500);
-	    }
-	    await sleep(500);
+	
+	function print_product_details(frm, row) {
 	    frm.doc.selected_qr = frm.doc.product_details[row - 1].qr_code;
 	    frm.doc.product_details[row-1].item_status = "Printed"
 	    refresh_field("product_details")
 	    frm.print_doc();
 	}
-	wait_saving();
     },
+    
     qt_inspection: function(frm) {
 	frappe.call({
 	    method: 'frappe.client.get',
@@ -184,4 +207,10 @@ frappe.ui.form.on('Product Order Details', {
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function doc_is_instantiated(frm) {
+    let name = frm.doc.name.split("-");
+    if(name[0] !== "PO")
+	frappe.throw("Save the Doc to generate qr code");
 }
