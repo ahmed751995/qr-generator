@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:scaler_name",
  "creation": "2022-04-14 15:12:42.381201",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -12,12 +13,13 @@
   {
    "fieldname": "scaler_name",
    "fieldtype": "Data",
-   "label": "Scaler Name"
+   "label": "Scaler Name",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-14 15:12:42.381201",
+ "modified": "2022-05-08 12:19:21.070568",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Scaler",

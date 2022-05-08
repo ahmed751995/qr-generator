@@ -1,32 +1,25 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2022-04-28 14:51:05.521949",
+ "creation": "2022-05-08 11:55:47.947625",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "product_order",
-  "product_details"
+  "product_items"
  ],
  "fields": [
   {
-   "fieldname": "product_order",
-   "fieldtype": "Link",
-   "label": "Product Order",
-   "options": "Product Order",
-   "read_only": 1
-  },
-  {
-   "fieldname": "product_details",
+   "fieldname": "product_items",
    "fieldtype": "Table",
-   "label": "Product Details",
+   "label": "Items",
    "options": "Quality Control Details"
   }
  ],
  "index_web_pages_for_search": 1,
+ "issingle": 1,
  "links": [],
- "modified": "2022-04-28 14:52:00.164357",
+ "modified": "2022-05-08 11:59:06.108449",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Quality Control",
@@ -36,10 +29,8 @@
    "create": 1,
    "delete": 1,
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "System Manager",
    "share": 1,
    "write": 1

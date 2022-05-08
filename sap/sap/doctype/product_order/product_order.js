@@ -8,10 +8,13 @@ frappe.ui.form.on('Product Order', {
     
     generate: function(frm) {
 	let items = parseInt(frm.doc.rolls_no);
-	let index = frm.doc.product_details.length;
+	let index;
+	if(frm.doc.product_details) index = frm.doc.product_details.length;
+	else index = 0;
+	
 	for(let i = index; i < items + index; i++) {
 	    frm.add_child('product_details', {
-		quantity: parseFloat(frm.doc.quantity / items),
+		item_quantity: parseFloat(frm.doc.quantity / items),
 		row_no: `${frm.doc.document_no}-${i+1}`,
 	    });
 	}
@@ -219,7 +222,8 @@ frappe.ui.form.on('Product Order Details', {
 		name: frm.selected_doc.qt_inspection
 	    },
 	    callback: function(r) {
-		frm.selected_doc.quality_status = r.message.status;
+		// frm.selected_doc.quality_status = r.message.status;
+		frappe.model.set_value('Product Order Details', frm.selected_doc.name, 'quality_status', r.message.status);
 		refresh_field("product_details");
 	    }
 	});

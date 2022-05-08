@@ -8,7 +8,7 @@
  "field_order": [
   "row_no",
   "bullet_no",
-  "quantity",
+  "item_quantity",
   "growth_weight",
   "net_weight",
   "scaler",
@@ -40,14 +40,6 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Row No"
-  },
-  {
-   "columns": 1,
-   "fieldname": "quantity",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Quantity",
-   "read_only": 1
   },
   {
    "columns": 1,
@@ -96,21 +88,27 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Qt Inspection",
-   "options": "Quality Inspection"
+   "options": "Quality Inspection",
+   "read_only": 1
   },
   {
    "columns": 1,
    "fieldname": "quality_status",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Quality Status",
-   "options": "\nAccepted\nRejected"
+   "read_only": 1
+  },
+  {
+   "fieldname": "item_quantity",
+   "fieldtype": "Data",
+   "label": "Item Quantity"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-04-28 13:25:06.768330",
+ "modified": "2022-05-08 16:23:31.429563",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order Details",

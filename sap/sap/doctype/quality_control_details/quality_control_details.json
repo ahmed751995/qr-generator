@@ -14,11 +14,11 @@
   "quality_status",
   "qt_inspection",
   "item_status",
+  "column_break_13",
   "document_no",
   "item_group",
   "item_no",
   "customer_no",
-  "column_break_13",
   "customer_name",
   "product_quantity",
   "product_length",
@@ -29,7 +29,8 @@
   "product_core_type",
   "product_core_weight",
   "product_total_weight",
-  "application"
+  "application",
+  "item_name"
  ],
  "fields": [
   {
@@ -48,13 +49,6 @@
   },
   {
    "columns": 1,
-   "fieldname": "quantity",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Quantity"
-  },
-  {
-   "columns": 1,
    "fieldname": "growth_weight",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -70,23 +64,26 @@
   {
    "columns": 1,
    "fieldname": "quality_status",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Quality Status"
+   "label": "Quality Status",
+   "options": "\nAccepted\nRejected"
   },
   {
    "columns": 1,
    "fieldname": "qt_inspection",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Qt Inspection"
+   "label": "Qt Inspection",
+   "options": "Quality Inspection"
   },
   {
    "columns": 1,
    "fieldname": "item_status",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Item Status"
+   "label": "Item Status",
+   "options": "Open\nWaited\nPrinted\nWaiting Quality\nInspected\nSent to SAP"
   },
   {
    "columns": 1,
@@ -174,12 +171,25 @@
   {
    "fieldname": "column_break_13",
    "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-04-28 15:24:02.016619",
+ "modified": "2022-05-08 13:31:43.031308",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Quality Control Details",

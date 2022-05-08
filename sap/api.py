@@ -1,33 +1,23 @@
 import frappe
 
 
+    
 @frappe.whitelist()
-def send_to_quality(doc, row_no, index):
-    qt_exist = frappe.db.exists("Quality Control", {'product_order': doc})
-    
-    if not qt_exist:
-        qt_control = frappe.new_doc("Quality Control")
-    else:
-        qt_control = frappe.get_doc("Quality Control", {'product_order': doc})
+def get_items_wait_quality():
+    items = frappe.db.sql(
+        """
+        SELECT pd.name, pd.row_no, pd.bullet_no, pd.item_quantity, pd.growth_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.item_no, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application FROM `tabProduct Order` AS p JOIN `tabProduct Order Details` AS pd ON (p.name = pd.parent) WHERE pd.item_status='Waiting Quality'
+        """,as_dict=1)
+    return items
 
-    item_exist = frappe.db.exists("Quality Control Details", {"row_no": row_no})
-    if not item_exist:
-        item = frappe.new_doc("Quality Control Details")
-        item.parent = qt_control.name
-    else:
-        item = frappe.get_doc("Quality Control Details", {"row_no": row_no})
 
-    product = frappe.get_doc("Product Order", doc)
-
-    create_row(item, product, int(index) - 1)
-    item.save()        
-    qt_control.save()
+@frappe.whitelist()
+def update_item_quality(name, status, qt_inspection):
+    doc = frappe.get_doc("Product Order Details", name)
+    doc.quality_status = status
+    doc.item_status = "Inspected"
+    doc.qt_inspection = qt_inspection
+    doc.save()
     frappe.db.commit()
-
-
-
-def create_row(item, product, i):
-    item.row_no = product.product_details[i].row_no
-    item.bullet_no = product.product_details[i].bullet_no
-    item.quantity = product.product_details[i].quantity
-    
+    new_doc = frappe.get_doc("Product Order Details", name)
+    return new_doc
