@@ -13,11 +13,12 @@ def get_items_wait_quality():
 
 @frappe.whitelist()
 def update_item_quality(name, status, qt_inspection):
+    
     doc = frappe.get_doc("Product Order Details", name)
+    print(name)
     doc.quality_status = status
     doc.item_status = "Inspected"
     doc.qt_inspection = qt_inspection
     doc.save()
     frappe.db.commit()
-    new_doc = frappe.get_doc("Product Order Details", name)
-    return new_doc
+    return True

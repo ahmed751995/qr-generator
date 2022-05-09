@@ -2,45 +2,130 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Quality Control', {
-	refresh: function(frm) {
-	    frappe.call({
-		method: 'sap.api.get_items_wait_quality',
-		callback: function(r) {
-		    let  items= r.message;
-		    frm.doc.product_items = [];
-		    items.forEach(item => {
-			frm.add_child('product_items', {
-			    row_no: item.row_no,
-			    bullet_no: item.bullet_no,
-			    quantity: item.item_quantity,
-			    growth_weight: item.growth_weight,
-			    net_weight: item.net_weight,
-			    item_status: item.item_status,
-			    document_no: item.document_no,
-			    item_group: item.item_group,
-			    item_no: item.item_no,
-			    customer_no: item.customer_no,
-			    customer_name: item.customer_name,
-			    product_quantity: item.quantity,
-			    product_length: item.length,
-			    product_width: item.product_width,
-			    item_serial: item.items_serial,
-			    product_weight: item.weight,
-			    product_thickness: item.thickness,
-			    product_core_type: item.core_type,
-			    product_core_weight: item.core_weight,
-			    product_total_weight: item.total_weight,
-			    application: item.application,
-			    scaler: item.scaler,
-			    item_name: item.name,
-			});
+    refresh: function(frm) {
+	frappe.call({
+	    method: 'sap.api.get_items_wait_quality',
+	    callback: function(r) {
+		let  items= r.message;
+		frm.doc.product_items = [];
+		items.forEach(item => {
+		    frm.add_child('product_items', {
+			row_no: item.row_no,
+			bullet_no: item.bullet_no,
+			quantity: item.item_quantity,
+			growth_weight: item.growth_weight,
+			net_weight: item.net_weight,
+			item_status: item.item_status,
+			document_no: item.document_no,
+			item_group: item.item_group,
+			item_no: item.item_no,
+			customer_no: item.customer_no,
+			customer_name: item.customer_name,
+			product_quantity: item.quantity,
+			product_length: item.length,
+			product_width: item.product_width,
+			item_serial: item.items_serial,
+			product_weight: item.weight,
+			product_thickness: item.thickness,
+			product_core_type: item.core_type,
+			product_core_weight: item.core_weight,
+			product_total_weight: item.total_weight,
+			application: item.application,
+			scaler: item.scaler,
+			item_name: item.name,
 		    });
-		    refresh_field("product_items");
-		}
-	    })
-	},
+		});
+		refresh_field("product_items");
+	    }
+	})
+    },
     before_save: function(frm) {
 	frappe.throw("Only refresh the doc");
+    },
+    change_rolls_status: function(frm) {
+	let d = new frappe.ui.Dialog({
+	    title: 'Rolls Status',
+	    fields: [
+		{label: 'Select All Rows',fieldname: 'select_all',fieldtype: 'Button'},
+		{fieldtype: 'Column Break' },
+		{label: 'Range',fieldname: 'range',fieldtype: 'Button'},
+		{fieldtype: 'Column Break' },
+		{label: 'Custom Rows',fieldname: 'custom_rows',fieldtype: 'Button'},
+		{fieldtype: 'Column Break' },
+		{label: 'Bullet No',fieldname: 'bullet_number',fieldtype: 'Button'},
+		{fieldtype: 'Section Break' },
+		{label: 'From Row',fieldname: 'from_row',fieldtype: 'Int',description: 'enter row number'},
+		{label: 'to Row',fieldname: 'to_row',fieldtype: 'Int'},
+		{label: 'Rows', fieldname: 'rows',fieldtype: 'Data',description: 'enter row number separated by comma ex: 2,4',hidden: 1},
+		{label: 'Bullet No',fieldname: 'bullet_no',fieldtype: 'Data',hidden: 1},
+		{label: 'Status',fieldname: 'row_status',fieldtype: 'Select',options: ['', 'Accepted', 'Rejected'],reqd: 1},
+		{label: '',fieldname: 'selected_but',fieldtype: 'Data', hidden: 1, default_value: 'range'}
+	    ],
+	    primary_action_label: 'Submit',
+	    primary_action(values) {		
+		let items = frm.doc.product_items;
+		
+		if(values.selected_but == "custom_rows") {
+		    let rows = values.rows.split(',');
+		    try{
+			for(let r of rows)
+			    update_quality(items[parseInt(r)-1].item_name, values.row_status)
+		    } catch(e) {
+			frappe.throw("Check row number")
+		    }
+		}
+		else if(values.selected_but == "bullet_number") {
+		    items.forEach(item => {
+			if(item.bullet_no == values.bullet_no)
+			    update_quality(item.item_name, values.row_status);
+		    });
+		}
+		else if(values.selected_but == "select_all") {
+		    items.forEach(item => update_quality(item.item_name, values.row_status));
+		}
+		else {
+		    try {
+			for(let i = values.from_row - 1; i < values.to_row; i++)
+			    update_quality(items[i].item_name, values.row_status);
+		    } catch(e) {
+			frappe.throw("Check row numbers")
+		    }
+		}
+
+
+		d.hide();
+		frm.reload_doc();
+	    }
+	});
+	d.fields_dict['select_all'].onclick = () => {
+	    cur_dialog.set_df_property('from_row', "hidden", 1);
+	    cur_dialog.set_df_property('to_row', "hidden", 1);
+	    cur_dialog.set_df_property('bullet_no', "hidden", 1);
+	    cur_dialog.set_df_property('rows', "hidden", 1);
+	    cur_dialog.fields_dict['selected_but'].set_value('select_all');
+	}
+	d.fields_dict['range'].onclick = () => {
+	    cur_dialog.set_df_property('from_row', "hidden", 0);
+	    cur_dialog.set_df_property('to_row', "hidden", 0);
+	    cur_dialog.set_df_property('bullet_no', "hidden", 1);
+	    cur_dialog.set_df_property('rows', "hidden", 1);
+	    cur_dialog.fields_dict['selected_but'].set_value('range');
+	}
+	d.fields_dict['custom_rows'].onclick = () => {
+	    cur_dialog.set_df_property('from_row', "hidden", 1);
+	    cur_dialog.set_df_property('to_row', "hidden", 1);
+	    cur_dialog.set_df_property('bullet_no', "hidden", 1);
+	    cur_dialog.set_df_property('rows', "hidden", 0);
+	    cur_dialog.fields_dict['selected_but'].set_value('custom_rows');
+	}
+	d.fields_dict['bullet_number'].onclick = () => {
+	    cur_dialog.set_df_property('from_row', "hidden", 1);
+	    cur_dialog.set_df_property('to_row', "hidden", 1);
+	    cur_dialog.set_df_property('bullet_no', "hidden", 0);
+	    cur_dialog.set_df_property('rows', "hidden", 1);
+	    cur_dialog.fields_dict['selected_but'].set_value('bullet_number');
+	}
+	d.show();
     }
 });
 
@@ -70,3 +155,14 @@ frappe.ui.form.on("Quality Control Details", {
 	    });
     }
 });
+
+function update_quality(name, status, qt_inspection="") {
+    frappe.call({
+	method: 'sap.api.update_item_quality',
+	args: {
+	    name: name,
+	    status: status,
+	    qt_inspection: qt_inspection
+	},
+    });
+}

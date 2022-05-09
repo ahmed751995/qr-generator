@@ -9,7 +9,6 @@ class ProductOrder(Document):
 	def before_save(self):
             self.selected_product = []
             for item in self.product_details:
-                print(item.as_dict().item_quantity)
                 data = {
                     'row_no': item.row_no,
                     'document_no': self.document_no,

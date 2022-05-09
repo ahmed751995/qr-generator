@@ -6,6 +6,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "change_rolls_status",
   "product_items"
  ],
  "fields": [
@@ -14,12 +15,17 @@
    "fieldtype": "Table",
    "label": "Items",
    "options": "Quality Control Details"
+  },
+  {
+   "fieldname": "change_rolls_status",
+   "fieldtype": "Button",
+   "label": "Change Rolls Status"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-05-08 11:59:06.108449",
+ "modified": "2022-05-08 16:25:53.751884",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Quality Control",
