@@ -6,7 +6,13 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "options_section",
   "change_rolls_status",
+  "column_break_3",
+  "filter",
+  "column_break_5",
+  "clear_filter",
+  "items_section",
   "product_items"
  ],
  "fields": [
@@ -20,12 +26,40 @@
    "fieldname": "change_rolls_status",
    "fieldtype": "Button",
    "label": "Change Rolls Status"
+  },
+  {
+   "fieldname": "options_section",
+   "fieldtype": "Section Break",
+   "label": "Options"
+  },
+  {
+   "fieldname": "items_section",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "filter",
+   "fieldtype": "Button",
+   "label": "Filter"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "clear_filter",
+   "fieldtype": "Button",
+   "label": "Clear Filter"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-05-08 16:25:53.751884",
+ "modified": "2022-05-09 11:34:55.191999",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Quality Control",

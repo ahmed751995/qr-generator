@@ -63,7 +63,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Item Status",
-   "options": "Open\nWaited\nPrinted\nWaiting Quality\nInspected\nSent to SAP"
+   "options": "Open\nWaited\nWaiting Quality\nInspected\nSent to SAP"
   },
   {
    "columns": 1,
@@ -108,7 +108,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-05-09 09:24:37.222751",
+ "modified": "2022-05-09 09:52:22.861586",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order Details",

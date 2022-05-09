@@ -6,38 +6,10 @@ frappe.ui.form.on('Quality Control', {
 	frappe.call({
 	    method: 'sap.api.get_items_wait_quality',
 	    callback: function(r) {
-		let  items= r.message;
-		frm.doc.product_items = [];
-		items.forEach(item => {
-		    frm.add_child('product_items', {
-			row_no: item.row_no,
-			bullet_no: item.bullet_no,
-			quantity: item.item_quantity,
-			growth_weight: item.growth_weight,
-			net_weight: item.net_weight,
-			item_status: item.item_status,
-			document_no: item.document_no,
-			item_group: item.item_group,
-			item_no: item.item_no,
-			customer_no: item.customer_no,
-			customer_name: item.customer_name,
-			product_quantity: item.quantity,
-			product_length: item.length,
-			product_width: item.product_width,
-			item_serial: item.items_serial,
-			product_weight: item.weight,
-			product_thickness: item.thickness,
-			product_core_type: item.core_type,
-			product_core_weight: item.core_weight,
-			product_total_weight: item.total_weight,
-			application: item.application,
-			scaler: item.scaler,
-			item_name: item.name,
-		    });
-		});
-		refresh_field("product_items");
+		let  items = r.message;
+		update_items_table(frm, items);
 	    }
-	})
+	});
     },
     before_save: function(frm) {
 	frappe.throw("Only refresh the doc");
@@ -126,6 +98,46 @@ frappe.ui.form.on('Quality Control', {
 	    cur_dialog.fields_dict['selected_but'].set_value('bullet_number');
 	}
 	d.show();
+    },
+    clear_filter: function(frm) {
+	frm.reload_doc();
+    },
+    filter: function(frm) {
+	let d = new frappe.ui.Dialog({
+	    title: 'Filter Items',
+	    fields: [
+		{label: 'Date', fieldtype: 'Section Break'},
+		{label: 'Start Date',fieldname: 'start_date', fieldtype: 'Date'},
+		{fieldtype: 'Column Break' },
+		{label: 'End Date',fieldname: 'end_date', fieldtype: 'Date'},
+		{fieldtype: 'Section Break'},
+		{label: 'Document Number', fieldname: 'document_no', fieldtype: 'Data'},
+		{label: 'Row Number', fieldname: 'row_no', fieldtype: 'Data'},
+		{label: 'Bullet Number', fieldname: 'bullet_no', fieldtype: 'Data'},
+	    ],
+	    primary_action_label: 'Filter',
+	    primary_action(values) {
+		if(new Date(values.end_date) < new Date(values.start_date))
+		    frappe.throw("End Date can't be earlier that Start Date");
+		frappe.call({
+		    method: 'sap.api.get_items_wait_quality',
+		    args: {
+			bullet_no: values.bullet_no || '',
+			row_no: values.row_no || '',
+			start_date: values.start_date || '',
+			end_date: values.end_date || '',
+			document_no: values.document_no || ''
+		    },
+		    callback: function(r) {
+			let  items = r.message;
+			update_items_table(frm, items);
+		    }
+		});
+		d.hide();
+	    }
+	});
+	d.show();
+
     }
 });
 
@@ -165,4 +177,36 @@ function update_quality(name, status, qt_inspection="") {
 	    qt_inspection: qt_inspection
 	},
     });
+}
+
+function update_items_table(frm, items) {
+    frm.doc.product_items = [];
+    items.forEach(item => {
+	frm.add_child('product_items', {
+	    row_no: item.row_no,
+	    bullet_no: item.bullet_no,
+	    quantity: item.item_quantity,
+	    growth_weight: item.growth_weight,
+	    net_weight: item.net_weight,
+	    item_status: item.item_status,
+	    document_no: item.document_no,
+	    item_group: item.item_group,
+	    item_no: item.item_no,
+	    customer_no: item.customer_no,
+	    customer_name: item.customer_name,
+	    product_quantity: item.quantity,
+	    product_length: item.length,
+	    product_width: item.product_width,
+	    item_serial: item.items_serial,
+	    product_weight: item.weight,
+	    product_thickness: item.thickness,
+	    product_core_type: item.core_type,
+	    product_core_weight: item.core_weight,
+	    product_total_weight: item.total_weight,
+	    application: item.application,
+	    scaler: item.scaler,
+	    item_name: item.name,
+	});
+    });
+    refresh_field("product_items");
 }
