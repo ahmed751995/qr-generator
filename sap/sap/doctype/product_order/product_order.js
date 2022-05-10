@@ -237,9 +237,6 @@ frappe.ui.form.on('Product Order Details', {
     }
 });
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 function doc_is_instantiated(frm) {
     let name = frm.doc.name.split("-");

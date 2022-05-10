@@ -10,9 +10,7 @@ frappe.ui.form.on('Quality Control', {
 		update_items_table(frm, items);
 	    }
 	});
-    },
-    before_save: function(frm) {
-	frappe.throw("Only refresh the doc");
+	frm.disable_save();
     },
     change_rolls_status: function(frm) {
 	let d = new frappe.ui.Dialog({
