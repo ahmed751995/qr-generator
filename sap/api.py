@@ -25,13 +25,13 @@ def get_items_wait_quality(bullet_no='', row_no='', document_no='', start_date='
         """
 
     if bullet_no:
-        query += f" AND pd.bullet_no={bullet_no}"
+        query += f" AND pd.bullet_no='{bullet_no}'"
 
     if row_no:
-        query += f"  AND pd.row_no={row_no}"
+        query += f"  AND pd.row_no='{row_no}'"
 
     if document_no:
-        query += f" AND p.document_no={document_no}"
+        query += f" AND p.document_no='{document_no}'"
 
     if start_date:
         query += f" AND pd.creation>='{start_date}'"
