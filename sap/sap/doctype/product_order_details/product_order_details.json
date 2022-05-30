@@ -17,7 +17,8 @@
   "qt_inspection",
   "item_status",
   "print_qr",
-  "qr_code"
+  "qr_code",
+  "reference"
  ],
  "fields": [
   {
@@ -103,12 +104,17 @@
    "fieldname": "item_quantity",
    "fieldtype": "Data",
    "label": "Item Quantity"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "reference"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-05-09 09:52:22.861586",
+ "modified": "2022-05-29 14:24:29.402495",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order Details",

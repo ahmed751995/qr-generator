@@ -39,9 +39,9 @@ frappe.ui.form.on('Quality Control', {
 		    let rows = values.rows.split(',');
 		    try{
 			for(let r of rows)
-			    update_quality(items[parseInt(r)-1].item_name, values.row_status)
+			    update_quality(items[parseInt(r)-1].item_name, values.row_status);
 		    } catch(e) {
-			frappe.throw("Check row number")
+			frappe.throw("Check row number");
 		    }
 		}
 		else if(values.selected_but == "bullet_number") {
@@ -58,7 +58,7 @@ frappe.ui.form.on('Quality Control', {
 			for(let i = values.from_row - 1; i < values.to_row; i++)
 			    update_quality(items[i].item_name, values.row_status);
 		    } catch(e) {
-			frappe.throw("Check row numbers")
+			frappe.throw("Check row numbers");
 		    }
 		}
 

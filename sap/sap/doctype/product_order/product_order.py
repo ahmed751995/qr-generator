@@ -12,7 +12,6 @@ class ProductOrder(Document):
                 data = {
                     'row_no': item.row_no,
                     'document_no': self.document_no,
-                    'item_no': self.item_no,
                     'customer_no': self.customer_no,
                     'customer_name': self.customer_name,
                     'quantity': item.item_quantity,

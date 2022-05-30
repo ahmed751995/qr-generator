@@ -115,6 +115,15 @@ app_license = "MIT"
 # Scheduled Tasks
 # ---------------
 
+
+scheduler_events = {
+    "cron":{
+        "*/10 * * * *":[
+            "sap.api.get_products_from_sap"
+        ]
+    }
+ }
+
 # scheduler_events = {
 # 	"all": [
 # 		"sap.tasks.all"

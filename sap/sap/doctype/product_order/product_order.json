@@ -10,7 +10,6 @@
   "order_information_section",
   "document_no",
   "item_group",
-  "item_no",
   "column_break_3",
   "customer_no",
   "customer_name",
@@ -20,7 +19,24 @@
   "width",
   "item_serial",
   "weight",
+  "density",
+  "cover_type",
+  "extensions",
+  "color",
+  "hand",
+  "printing_color",
+  "folding",
+  "welding",
   "column_break_10",
+  "welding_type",
+  "guarantee",
+  "handling_type",
+  "handling_direction",
+  "roll_status",
+  "core_width",
+  "packing_weight",
+  "roll_width",
+  "packing",
   "thickness",
   "core_type",
   "core_weight",
@@ -36,7 +52,6 @@
   "selected_bullet_no",
   "print_selected_bullet",
   "column_break_30",
-  "change_roll_status",
   "send_to_sap",
   "selected_qr",
   "section_break_31",
@@ -46,12 +61,14 @@
   {
    "fieldname": "customer_no",
    "fieldtype": "Data",
-   "label": "Customer No"
+   "label": "Customer No",
+   "read_only": 1
   },
   {
    "fieldname": "weight",
    "fieldtype": "Data",
-   "label": "Weight"
+   "label": "Weight",
+   "read_only": 1
   },
   {
    "fieldname": "product_details",
@@ -67,66 +84,72 @@
   {
    "fieldname": "item_serial",
    "fieldtype": "Data",
-   "label": "Item Serial"
+   "label": "Item Serial",
+   "read_only": 1
   },
   {
    "fieldname": "document_no",
    "fieldtype": "Data",
    "label": "Document No",
+   "read_only": 1,
    "unique": 1
-  },
-  {
-   "fieldname": "item_no",
-   "fieldtype": "Data",
-   "label": "Item No"
   },
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "read_only": 1
   },
   {
    "fieldname": "quantity",
    "fieldtype": "Data",
-   "label": "Quantity"
+   "label": "Quantity",
+   "read_only": 1
   },
   {
    "description": "Meter",
    "fieldname": "length",
    "fieldtype": "Data",
-   "label": "Length"
+   "label": "Length",
+   "read_only": 1
   },
   {
    "description": "Centimeter",
    "fieldname": "width",
    "fieldtype": "Data",
-   "label": "Width"
+   "label": "Width",
+   "read_only": 1
   },
   {
    "description": "Micron",
    "fieldname": "thickness",
    "fieldtype": "Data",
-   "label": "Thickness"
+   "label": "Thickness",
+   "read_only": 1
   },
   {
    "fieldname": "core_type",
    "fieldtype": "Data",
-   "label": "Core Type"
+   "label": "Core Type",
+   "read_only": 1
   },
   {
    "fieldname": "core_weight",
    "fieldtype": "Data",
-   "label": "Core Weight"
+   "label": "Core Weight",
+   "read_only": 1
   },
   {
    "fieldname": "total_weight",
    "fieldtype": "Data",
-   "label": "Total Weight"
+   "label": "Total Weight",
+   "read_only": 1
   },
   {
    "fieldname": "application",
    "fieldtype": "Data",
-   "label": "Application"
+   "label": "Application",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_10",
@@ -145,12 +168,14 @@
    "collapsible": 1,
    "fieldname": "item_details_section",
    "fieldtype": "Section Break",
-   "label": "Item Details"
+   "label": "Item Details",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_18",
    "fieldtype": "Section Break",
-   "label": "Roll Information"
+   "label": "Roll Information",
+   "read_only": 1
   },
   {
    "fieldname": "order_information_section",
@@ -160,7 +185,8 @@
   {
    "fieldname": "roll_information_section",
    "fieldtype": "Section Break",
-   "label": "Roll Information"
+   "label": "Roll Information",
+   "read_only": 1
   },
   {
    "collapsible": 1,
@@ -186,16 +212,12 @@
   {
    "fieldname": "item_group",
    "fieldtype": "Data",
-   "label": "Item Group"
+   "label": "Item Group",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_30",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "change_roll_status",
-   "fieldtype": "Button",
-   "label": "Change Roll Status"
   },
   {
    "fieldname": "selected_product",
@@ -217,11 +239,114 @@
    "fieldname": "selected_bullet_no",
    "fieldtype": "Data",
    "label": "Bullet Number"
+  },
+  {
+   "fieldname": "density",
+   "fieldtype": "Data",
+   "label": "Density",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cover_type",
+   "fieldtype": "Data",
+   "label": "Cover Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extensions",
+   "fieldtype": "Data",
+   "label": "Extensions",
+   "read_only": 1
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Data",
+   "label": "Color",
+   "read_only": 1
+  },
+  {
+   "fieldname": "hand",
+   "fieldtype": "Data",
+   "label": "Hand",
+   "read_only": 1
+  },
+  {
+   "fieldname": "printing_color",
+   "fieldtype": "Data",
+   "label": "Number Of Printing Color",
+   "read_only": 1
+  },
+  {
+   "fieldname": "folding",
+   "fieldtype": "Data",
+   "label": "Folding",
+   "read_only": 1
+  },
+  {
+   "fieldname": "welding",
+   "fieldtype": "Data",
+   "label": "Welding",
+   "read_only": 1
+  },
+  {
+   "fieldname": "welding_type",
+   "fieldtype": "Data",
+   "label": "Welding Type",
+   "read_only": 1
+  },
+  {
+   "description": "By Month",
+   "fieldname": "guarantee",
+   "fieldtype": "Data",
+   "label": "Guarantee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "handling_type",
+   "fieldtype": "Data",
+   "label": "Handling Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "handling_direction",
+   "fieldtype": "Data",
+   "label": "Handling Direction",
+   "read_only": 1
+  },
+  {
+   "fieldname": "roll_status",
+   "fieldtype": "Data",
+   "label": "Roll Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "packing",
+   "fieldtype": "Data",
+   "label": "Packing",
+   "read_only": 1
+  },
+  {
+   "fieldname": "core_width",
+   "fieldtype": "Data",
+   "label": "Core Width",
+   "read_only": 1
+  },
+  {
+   "fieldname": "packing_weight",
+   "fieldtype": "Data",
+   "label": "Packing Weight",
+   "read_only": 1
+  },
+  {
+   "fieldname": "roll_width",
+   "fieldtype": "Data",
+   "label": "Roll width",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-04-28 15:31:04.136434",
+ "modified": "2022-05-30 13:16:38.350046",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",
