@@ -30,7 +30,7 @@
   "extensions",
   "weight",
   "total_weight",
-  "bullet_no",
+  "pallet_no",
   "color",
   "rolls_no",
   "column_break_21",
@@ -248,12 +248,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "Palletnumber",
-   "fieldname": "bullet_no",
-   "fieldtype": "Data",
-   "label": "Bullet No"
-  },
-  {
    "default": "RollStatus",
    "fieldname": "roll_status",
    "fieldtype": "Data",
@@ -330,12 +324,18 @@
    "fieldname": "login_url",
    "fieldtype": "Data",
    "label": "Login URL"
+  },
+  {
+   "default": "Palletnumber",
+   "fieldname": "pallet_no",
+   "fieldtype": "Data",
+   "label": "Pallet No"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-06-01 14:25:00.697524",
+ "modified": "2022-06-01 14:42:31.595134",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Setting",

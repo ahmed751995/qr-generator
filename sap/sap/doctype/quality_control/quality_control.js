@@ -22,12 +22,12 @@ frappe.ui.form.on('Quality Control', {
 		{fieldtype: 'Column Break' },
 		{label: 'Custom Rows',fieldname: 'custom_rows',fieldtype: 'Button'},
 		{fieldtype: 'Column Break' },
-		{label: 'Bullet No',fieldname: 'bullet_number',fieldtype: 'Button'},
+		{label: 'Pallet No',fieldname: 'pallet_number',fieldtype: 'Button'},
 		{fieldtype: 'Section Break' },
 		{label: 'From Row',fieldname: 'from_row',fieldtype: 'Int',description: 'enter row number'},
 		{label: 'to Row',fieldname: 'to_row',fieldtype: 'Int'},
 		{label: 'Rows', fieldname: 'rows',fieldtype: 'Data',description: 'enter row number separated by comma ex: 2,4',hidden: 1},
-		{label: 'Bullet No',fieldname: 'bullet_no',fieldtype: 'Data',hidden: 1},
+		{label: 'Pallet No',fieldname: 'pallet_no',fieldtype: 'Data',hidden: 1},
 		{label: 'Status',fieldname: 'row_status',fieldtype: 'Select',options: ['', 'Accepted', 'Rejected'],reqd: 1},
 		{label: '',fieldname: 'selected_but',fieldtype: 'Data', hidden: 1, default_value: 'range'}
 	    ],
@@ -44,9 +44,9 @@ frappe.ui.form.on('Quality Control', {
 			frappe.throw("Check row number");
 		    }
 		}
-		else if(values.selected_but == "bullet_number") {
+		else if(values.selected_but == "pallet_number") {
 		    items.forEach(item => {
-			if(item.bullet_no == values.bullet_no)
+			if(item.pallet_no == values.pallet_no)
 			    update_quality(item.item_name, values.row_status);
 		    });
 		}
@@ -70,30 +70,30 @@ frappe.ui.form.on('Quality Control', {
 	d.fields_dict['select_all'].onclick = () => {
 	    cur_dialog.set_df_property('from_row', "hidden", 1);
 	    cur_dialog.set_df_property('to_row', "hidden", 1);
-	    cur_dialog.set_df_property('bullet_no', "hidden", 1);
+	    cur_dialog.set_df_property('pallet_no', "hidden", 1);
 	    cur_dialog.set_df_property('rows', "hidden", 1);
 	    cur_dialog.fields_dict['selected_but'].set_value('select_all');
 	}
 	d.fields_dict['range'].onclick = () => {
 	    cur_dialog.set_df_property('from_row', "hidden", 0);
 	    cur_dialog.set_df_property('to_row', "hidden", 0);
-	    cur_dialog.set_df_property('bullet_no', "hidden", 1);
+	    cur_dialog.set_df_property('pallet_no', "hidden", 1);
 	    cur_dialog.set_df_property('rows', "hidden", 1);
 	    cur_dialog.fields_dict['selected_but'].set_value('range');
 	}
 	d.fields_dict['custom_rows'].onclick = () => {
 	    cur_dialog.set_df_property('from_row', "hidden", 1);
 	    cur_dialog.set_df_property('to_row', "hidden", 1);
-	    cur_dialog.set_df_property('bullet_no', "hidden", 1);
+	    cur_dialog.set_df_property('pallet_no', "hidden", 1);
 	    cur_dialog.set_df_property('rows', "hidden", 0);
 	    cur_dialog.fields_dict['selected_but'].set_value('custom_rows');
 	}
-	d.fields_dict['bullet_number'].onclick = () => {
+	d.fields_dict['pallet_number'].onclick = () => {
 	    cur_dialog.set_df_property('from_row', "hidden", 1);
 	    cur_dialog.set_df_property('to_row', "hidden", 1);
-	    cur_dialog.set_df_property('bullet_no', "hidden", 0);
+	    cur_dialog.set_df_property('pallet_no', "hidden", 0);
 	    cur_dialog.set_df_property('rows', "hidden", 1);
-	    cur_dialog.fields_dict['selected_but'].set_value('bullet_number');
+	    cur_dialog.fields_dict['selected_but'].set_value('pallet_number');
 	}
 	d.show();
     },
@@ -111,7 +111,7 @@ frappe.ui.form.on('Quality Control', {
 		{fieldtype: 'Section Break'},
 		{label: 'Document Number', fieldname: 'document_no', fieldtype: 'Data'},
 		{label: 'Row Number', fieldname: 'row_no', fieldtype: 'Data'},
-		{label: 'Bullet Number', fieldname: 'bullet_no', fieldtype: 'Data'},
+		{label: 'Pallet Number', fieldname: 'pallet_no', fieldtype: 'Data'},
 	    ],
 	    primary_action_label: 'Filter',
 	    primary_action(values) {
@@ -120,7 +120,7 @@ frappe.ui.form.on('Quality Control', {
 		frappe.call({
 		    method: 'sap.api.get_items_wait_quality',
 		    args: {
-			bullet_no: values.bullet_no || '',
+			pallet_no: values.pallet_no || '',
 			row_no: values.row_no || '',
 			start_date: values.start_date || '',
 			end_date: values.end_date || '',
@@ -182,7 +182,7 @@ function update_items_table(frm, items) {
     items.forEach(item => {
 	frm.add_child('product_items', {
 	    row_no: item.row_no,
-	    bullet_no: item.bullet_no,
+	    pallet_no: item.pallet_no,
 	    quantity: item.item_quantity,
 	    growth_weight: item.growth_weight,
 	    net_weight: item.net_weight,

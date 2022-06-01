@@ -30,7 +30,7 @@ frappe.ui.form.on('Product Order', {
 	 // });
 	 refresh_field("product_details");
      },
-    print_selected_bullet: function(frm) { // stop here
+    print_selected_pallet: function(frm) { // stop here
 	doc_is_instantiated(frm);
 	if(!frm.doc.docstatus)
 	    frm.doc.product_details.forEach(product => {
@@ -38,14 +38,14 @@ frappe.ui.form.on('Product Order', {
 	    });
 
 	let d = new frappe.ui.Dialog({
-	    title: 'Enter Bullet Number',
+	    title: 'Enter Pallet Number',
 	    fields: [
-		{label: 'Bullet No',fieldname: 'bullet_no',fieldtype: 'Data'},
+		{label: 'Pallet No',fieldname: 'pallet_no',fieldtype: 'Data'},
 
 	    ],
 	    primary_action_label: 'Print',
 	    primary_action(values) {
-		frm.doc.selected_bullet_no = values.bullet_no;
+		frm.doc.selected_pallet_no = values.pallet_no;
 		print_selected_doc(frm);
 		
 		d.hide();
@@ -58,7 +58,7 @@ frappe.ui.form.on('Product Order', {
 	    frm.doc.selected_product = [];
 	    let i = 1;
 	    frm.doc.product_details.forEach(product => {
-		if(product.bullet_no == frm.doc.selected_bullet_no) {
+		if(product.pallet_no == frm.doc.selected_pallet_no) {
 		    frm.doc.selected_product.push({...product, idx: i});
 		    i += 1;
 		}

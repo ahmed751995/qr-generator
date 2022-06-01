@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "row_no",
-  "bullet_no",
+  "pallet_no",
   "quantity",
   "growth_weight",
   "net_weight",
@@ -38,13 +38,6 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Row no"
-  },
-  {
-   "columns": 1,
-   "fieldname": "bullet_no",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Bullet No"
   },
   {
    "columns": 1,
@@ -176,12 +169,19 @@
    "fieldtype": "Data",
    "label": "Item Name",
    "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "pallet_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Pallet No"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-05-30 14:16:14.075995",
+ "modified": "2022-06-01 14:43:43.454646",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Quality Control Details",

@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "row_no",
-  "bullet_no",
+  "pallet_no",
   "reference",
   "net_weight",
   "scaler",
@@ -21,13 +21,6 @@
   "qr_code"
  ],
  "fields": [
-  {
-   "columns": 1,
-   "fieldname": "bullet_no",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Bullet No"
-  },
   {
    "columns": 1,
    "fieldname": "measure",
@@ -110,12 +103,19 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Reference"
+  },
+  {
+   "columns": 1,
+   "fieldname": "pallet_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Pallet No"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-06-01 12:58:28.834347",
+ "modified": "2022-06-01 14:43:16.223251",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order Details",

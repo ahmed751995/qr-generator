@@ -5,14 +5,14 @@ import json
 import time
 
 @frappe.whitelist()
-def get_items_wait_quality(bullet_no='', row_no='', document_no='', start_date='', end_date=''):
+def get_items_wait_quality(pallet_no='', row_no='', document_no='', start_date='', end_date=''):
     """
     return a list of dicts of Product Order Details(child table) joined with Product
     Order(parent table) which there item_status = 'Waiting Quality' filtered on the 
     function input, if there wasn't any input the function return all waiting Quality
     items without filter
 
-    bullet_no = Product Order Details bullet_no
+    pallet_no = Product Order Details pallet_no
     row_no = Product Order Details row_no
     document_no = Product Order document_no
     start_date = the creation date of Product Order Details created on or after the start_date
@@ -20,14 +20,14 @@ def get_items_wait_quality(bullet_no='', row_no='', document_no='', start_date='
     """
     
     query = """
-        SELECT pd.name, pd.row_no, pd.bullet_no, pd.item_quantity, pd.growth_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
+        SELECT pd.name, pd.row_no, pd.pallet_no, pd.item_quantity, pd.growth_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
         FROM `tabProduct Order` AS p JOIN `tabProduct Order Details` AS pd 
         ON (p.name = pd.parent) 
         WHERE (pd.item_status='Waiting Quality')
         """
 
-    if bullet_no:
-        query += f" AND pd.bullet_no='{bullet_no}'"
+    if pallet_no:
+        query += f" AND pd.pallet_no='{pallet_no}'"
 
     if row_no:
         query += f"  AND pd.row_no='{row_no}'"

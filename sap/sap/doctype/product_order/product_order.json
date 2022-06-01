@@ -27,7 +27,7 @@
   "printing_colors",
   "folding",
   "welding",
-  "bullet_no",
+  "pallet_no",
   "column_break_10",
   "welding_type",
   "handling_type",
@@ -49,7 +49,7 @@
   "item_details_section",
   "product_details",
   "section_break_26",
-  "print_selected_bullet",
+  "print_selected_pallet",
   "column_break_30",
   "send_to_sap",
   "selected_qr",
@@ -230,11 +230,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "print_selected_bullet",
-   "fieldtype": "Button",
-   "label": "Print Selected Bullet"
-  },
-  {
    "fieldname": "density",
    "fieldtype": "Data",
    "label": "Density",
@@ -319,12 +314,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "bullet_no",
-   "fieldtype": "Data",
-   "label": "Bullet No",
-   "read_only": 1
-  },
-  {
    "fieldname": "printing_colors",
    "fieldtype": "Data",
    "label": "Printing Colors",
@@ -344,12 +333,23 @@
    "options": "Product Order",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "pallet_no",
+   "fieldtype": "Data",
+   "label": "Pallet No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "print_selected_pallet",
+   "fieldtype": "Button",
+   "label": "Print Selected Pallet"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-06-01 12:33:38.510039",
+ "modified": "2022-06-01 14:41:45.471081",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",
