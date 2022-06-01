@@ -149,6 +149,7 @@ frappe.ui.form.on("Quality Control Details", {
 		qt_inspection: frm.selected_doc.qt_inspection || ""
 	    },
 	});
+	frm.reload_doc();
     },
     qt_inspection: function(frm) {
 	if(frm.selected_doc.qt_inspection)
@@ -163,6 +164,7 @@ frappe.ui.form.on("Quality Control Details", {
 		    refresh_field("product_items");
 		}
 	    });
+	frm.reload_doc();
     }
 });
 
