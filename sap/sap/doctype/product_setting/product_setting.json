@@ -62,141 +62,169 @@
    "options": "Scaler"
   },
   {
+   "default": "B1i",
    "fieldname": "user_name",
    "fieldtype": "Data",
    "label": "User Name"
   },
   {
+   "default": "12345",
    "fieldname": "password",
    "fieldtype": "Data",
    "label": "Password"
   },
   {
+   "default": "CardName",
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "label": "Customer Name"
   },
   {
+   "default": "ItemCode",
    "fieldname": "item_serial",
    "fieldtype": "Data",
    "label": "Item Serial"
   },
   {
+   "default": "Quantity",
    "fieldname": "quantity",
    "fieldtype": "Data",
    "label": "Quantity"
   },
   {
+   "default": "ProdName",
    "fieldname": "item_group",
    "fieldtype": "Data",
    "label": "Item Group"
   },
   {
+   "default": "DocEntry",
    "fieldname": "document_no",
    "fieldtype": "Data",
    "label": "Document No"
   },
   {
+   "default": "RollLength",
    "fieldname": "length",
    "fieldtype": "Data",
    "label": "Length"
   },
   {
+   "default": "Width",
    "fieldname": "width",
    "fieldtype": "Data",
    "label": "Width"
   },
   {
+   "default": "Thickness",
    "fieldname": "thickness",
    "fieldtype": "Data",
    "label": "Thickness"
   },
   {
+   "default": "Density",
    "fieldname": "density",
    "fieldtype": "Data",
    "label": "Density"
   },
   {
+   "default": "Core",
    "fieldname": "core_type",
    "fieldtype": "Data",
    "label": "Core Type"
   },
   {
+   "default": "CoreWeight",
    "fieldname": "core_weight",
    "fieldtype": "Data",
    "label": "Core Weight"
   },
   {
+   "default": "Additional",
    "fieldname": "extensions",
    "fieldtype": "Data",
    "label": "Extensions"
   },
   {
+   "default": "NetWeight",
    "fieldname": "weight",
    "fieldtype": "Data",
    "label": "Weight"
   },
   {
+   "default": "GrossWeight",
    "fieldname": "total_weight",
    "fieldtype": "Data",
    "label": "Total Weight"
   },
   {
+   "default": "Color",
    "fieldname": "color",
    "fieldtype": "Data",
    "label": "Color"
   },
   {
+   "default": "Hand",
    "fieldname": "hand",
    "fieldtype": "Data",
    "label": "Hand"
   },
   {
+   "default": "Fold",
    "fieldname": "folding",
    "fieldtype": "Data",
    "label": "Folding"
   },
   {
+   "default": "Welding",
    "fieldname": "welding",
    "fieldtype": "Data",
    "label": "Welding"
   },
   {
+   "default": "WeldingType",
    "fieldname": "welding_type",
    "fieldtype": "Data",
    "label": "welding Type"
   },
   {
+   "default": "TreatmentType",
    "fieldname": "handling_type",
    "fieldtype": "Data",
    "label": "Handling Type"
   },
   {
+   "default": "Treatment",
    "fieldname": "handling_direction",
    "fieldtype": "Data",
    "label": "Handling Direction"
   },
   {
+   "default": "Application",
    "fieldname": "application",
    "fieldtype": "Data",
    "label": "Application"
   },
   {
+   "default": "Packing",
    "fieldname": "packing",
    "fieldtype": "Data",
    "label": "Packing"
   },
   {
+   "default": "CoreWidth",
    "fieldname": "core_width",
    "fieldtype": "Data",
    "label": "Core Width"
   },
   {
+   "default": "RollWidth",
    "fieldname": "roll_width",
    "fieldtype": "Data",
    "label": "Roll Width"
   },
   {
+   "default": "PackingWeigth",
    "fieldname": "packing_weight",
    "fieldtype": "Data",
    "label": "Packing Weight"
@@ -220,71 +248,85 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Palletnumber",
    "fieldname": "bullet_no",
    "fieldtype": "Data",
    "label": "Bullet No"
   },
   {
+   "default": "RollStatus",
    "fieldname": "roll_status",
    "fieldtype": "Data",
    "label": "Roll Status"
   },
   {
+   "default": "PrintingNumber",
    "fieldname": "printing_colors",
    "fieldtype": "Data",
    "label": "Printing Colors"
   },
   {
+   "default": "PackingType",
    "fieldname": "packing_type",
    "fieldtype": "Data",
    "label": "Packing Type"
   },
   {
+   "default": "ProdNo",
    "fieldname": "item_no",
    "fieldtype": "Data",
    "label": "Item No"
   },
   {
+   "default": "ProductType",
    "fieldname": "item_type",
    "fieldtype": "Data",
    "label": "Item Type"
   },
   {
+   "default": "ProductionType",
    "fieldname": "production_type",
    "fieldtype": "Data",
    "label": "Production Type"
   },
   {
+   "default": "WeightType",
    "fieldname": "weight_type",
    "fieldtype": "Data",
    "label": "Weight Type"
   },
   {
+   "default": "LifeTime",
    "fieldname": "life_time",
    "fieldtype": "Data",
    "label": "Life Time"
   },
   {
+   "default": "JamboRollNo",
    "fieldname": "jambo_roll_no",
    "fieldtype": "Data",
    "label": "Jambo Roll No"
   },
   {
+   "default": "RollQuantity",
    "fieldname": "rolls_no",
    "fieldtype": "Data",
    "label": "Rolls No"
   },
   {
+   "default": "A20847_AQPI_T01",
    "fieldname": "company_db",
    "fieldtype": "Data",
    "label": "CompanyDB"
   },
   {
+   "default": "https://htpc20847p01.cloudiax.com:50000/b1s/v1/SQLQueries('GetFinishedProd')/List",
    "fieldname": "product_url",
    "fieldtype": "Data",
    "label": "Finished Product URL"
   },
   {
+   "default": "https://htpc20847p01.cloudiax.com:50000/b1s/v1/Login",
    "fieldname": "login_url",
    "fieldtype": "Data",
    "label": "Login URL"
@@ -293,7 +335,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-06-01 10:25:45.817715",
+ "modified": "2022-06-01 14:25:00.697524",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Setting",
