@@ -6,7 +6,53 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "default_scaler"
+  "user_setting_section",
+  "login_url",
+  "user_name",
+  "company_db",
+  "password",
+  "column_break_4",
+  "product_url",
+  "default_scaler",
+  "api_attributes_section",
+  "document_no",
+  "customer_name",
+  "item_serial",
+  "quantity",
+  "item_group",
+  "length",
+  "width",
+  "thickness",
+  "density",
+  "packing_type",
+  "core_type",
+  "core_weight",
+  "extensions",
+  "weight",
+  "total_weight",
+  "bullet_no",
+  "color",
+  "rolls_no",
+  "column_break_21",
+  "hand",
+  "printing_colors",
+  "folding",
+  "welding",
+  "welding_type",
+  "handling_type",
+  "handling_direction",
+  "application",
+  "packing",
+  "core_width",
+  "roll_width",
+  "packing_weight",
+  "roll_status",
+  "item_no",
+  "item_type",
+  "production_type",
+  "weight_type",
+  "life_time",
+  "jambo_roll_no"
  ],
  "fields": [
   {
@@ -14,12 +60,240 @@
    "fieldtype": "Link",
    "label": "Default Scaler",
    "options": "Scaler"
+  },
+  {
+   "fieldname": "user_name",
+   "fieldtype": "Data",
+   "label": "User Name"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "Password"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "item_serial",
+   "fieldtype": "Data",
+   "label": "Item Serial"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "item_group",
+   "fieldtype": "Data",
+   "label": "Item Group"
+  },
+  {
+   "fieldname": "document_no",
+   "fieldtype": "Data",
+   "label": "Document No"
+  },
+  {
+   "fieldname": "length",
+   "fieldtype": "Data",
+   "label": "Length"
+  },
+  {
+   "fieldname": "width",
+   "fieldtype": "Data",
+   "label": "Width"
+  },
+  {
+   "fieldname": "thickness",
+   "fieldtype": "Data",
+   "label": "Thickness"
+  },
+  {
+   "fieldname": "density",
+   "fieldtype": "Data",
+   "label": "Density"
+  },
+  {
+   "fieldname": "core_type",
+   "fieldtype": "Data",
+   "label": "Core Type"
+  },
+  {
+   "fieldname": "core_weight",
+   "fieldtype": "Data",
+   "label": "Core Weight"
+  },
+  {
+   "fieldname": "extensions",
+   "fieldtype": "Data",
+   "label": "Extensions"
+  },
+  {
+   "fieldname": "weight",
+   "fieldtype": "Data",
+   "label": "Weight"
+  },
+  {
+   "fieldname": "total_weight",
+   "fieldtype": "Data",
+   "label": "Total Weight"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Data",
+   "label": "Color"
+  },
+  {
+   "fieldname": "hand",
+   "fieldtype": "Data",
+   "label": "Hand"
+  },
+  {
+   "fieldname": "folding",
+   "fieldtype": "Data",
+   "label": "Folding"
+  },
+  {
+   "fieldname": "welding",
+   "fieldtype": "Data",
+   "label": "Welding"
+  },
+  {
+   "fieldname": "welding_type",
+   "fieldtype": "Data",
+   "label": "welding Type"
+  },
+  {
+   "fieldname": "handling_type",
+   "fieldtype": "Data",
+   "label": "Handling Type"
+  },
+  {
+   "fieldname": "handling_direction",
+   "fieldtype": "Data",
+   "label": "Handling Direction"
+  },
+  {
+   "fieldname": "application",
+   "fieldtype": "Data",
+   "label": "Application"
+  },
+  {
+   "fieldname": "packing",
+   "fieldtype": "Data",
+   "label": "Packing"
+  },
+  {
+   "fieldname": "core_width",
+   "fieldtype": "Data",
+   "label": "Core Width"
+  },
+  {
+   "fieldname": "roll_width",
+   "fieldtype": "Data",
+   "label": "Roll Width"
+  },
+  {
+   "fieldname": "packing_weight",
+   "fieldtype": "Data",
+   "label": "Packing Weight"
+  },
+  {
+   "fieldname": "user_setting_section",
+   "fieldtype": "Section Break",
+   "label": "User Setting"
+  },
+  {
+   "fieldname": "api_attributes_section",
+   "fieldtype": "Section Break",
+   "label": "Api Attributes"
+  },
+  {
+   "fieldname": "column_break_21",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bullet_no",
+   "fieldtype": "Data",
+   "label": "Bullet No"
+  },
+  {
+   "fieldname": "roll_status",
+   "fieldtype": "Data",
+   "label": "Roll Status"
+  },
+  {
+   "fieldname": "printing_colors",
+   "fieldtype": "Data",
+   "label": "Printing Colors"
+  },
+  {
+   "fieldname": "packing_type",
+   "fieldtype": "Data",
+   "label": "Packing Type"
+  },
+  {
+   "fieldname": "item_no",
+   "fieldtype": "Data",
+   "label": "Item No"
+  },
+  {
+   "fieldname": "item_type",
+   "fieldtype": "Data",
+   "label": "Item Type"
+  },
+  {
+   "fieldname": "production_type",
+   "fieldtype": "Data",
+   "label": "Production Type"
+  },
+  {
+   "fieldname": "weight_type",
+   "fieldtype": "Data",
+   "label": "Weight Type"
+  },
+  {
+   "fieldname": "life_time",
+   "fieldtype": "Data",
+   "label": "Life Time"
+  },
+  {
+   "fieldname": "jambo_roll_no",
+   "fieldtype": "Data",
+   "label": "Jambo Roll No"
+  },
+  {
+   "fieldname": "rolls_no",
+   "fieldtype": "Data",
+   "label": "Rolls No"
+  },
+  {
+   "fieldname": "company_db",
+   "fieldtype": "Data",
+   "label": "CompanyDB"
+  },
+  {
+   "fieldname": "product_url",
+   "fieldtype": "Data",
+   "label": "Finished Product URL"
+  },
+  {
+   "fieldname": "login_url",
+   "fieldtype": "Data",
+   "label": "Login URL"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-04-14 15:18:49.692611",
+ "modified": "2022-06-01 10:25:45.817715",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Setting",

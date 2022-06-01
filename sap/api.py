@@ -2,7 +2,7 @@ import datetime
 import requests
 import frappe
 import json
-
+import time
 
 @frappe.whitelist()
 def get_items_wait_quality(bullet_no='', row_no='', document_no='', start_date='', end_date=''):
@@ -66,12 +66,12 @@ def update_item_quality(name, status, qt_inspection):
     return True
 
 
-def session_login(url = "https://htpc20847p01.cloudiax.com:50000/b1s/v1/Login"):
+def session_login(url, company_db, username, password):
 
     payload = json.dumps({
-        "CompanyDB": "A20847_AQPI_T01",
-        "Password": "12345",
-        "UserName": "B1i"
+        "CompanyDB": company_db,
+        "Password": password,
+        "UserName": username
     })
     headers = {
         'Content-Type': 'application/json'
@@ -83,56 +83,40 @@ def session_login(url = "https://htpc20847p01.cloudiax.com:50000/b1s/v1/Login"):
     return session_id
 
 @frappe.whitelist()
-def get_products_from_sap(url = "https://htpc20847p01.cloudiax.com:50000/b1s/v1/SQLQueries('GetFinishedProd')/List"):
+def get_products_from_sap(progress=False):
 
-    session_id = session_login()
+    product_setting = frappe.get_doc("Product Setting")
+    login_url = product_setting.login_url
+    password = product_setting.password
+    username = product_setting.user_name
+    company_db = product_setting.company_db
+    
+    session_id = session_login(login_url, company_db, username, password)
+
     payload={}
     headers = {
         'Cookie': f'B1SESSION={session_id}'
     }
 
-    response = requests.request("GET", url, headers=headers, data=payload)
+    response = requests.request("GET", product_setting.product_url, headers=headers, data=payload)
+    sap_products = json.loads(response.text)["value"]
 
-    data = json.loads(response.text)["value"]
-
-    for d in data:
-        exists = frappe.db.exists("Product Order", {"document_no": d['DocNum']})
+    
+    for i in range(len(sap_products)):
+        exists = frappe.db.exists("Product Order", {"document_no": sap_products[i]['DocEntry'], "customer_name": sap_products[i]['CardName']})
         if not exists:
-            product = frappe.new_doc("Product Order")
-            product.customer_name = d['CardName']
-            product.customer_no = d['CardCode']
-            product.item_serial = d['ItemCode']
-            product.quantity = d['Quantity']
-            product.item_group = d['ProdName']
-            product.document_no = d['DocNum']
-            product.length = d['U_B1M001']
-            product.width = d['U_B1M002']
-            product.thickness = d['U_B1M003']
-            product.density = d['U_B1M004']
-            product.cover_type = d['U_B1M005']
-            product.core_type = d['U_B1M006']
-            product.core_weight = d['U_B1M007']
-            product.extensions = d['U_B1M008']
-            product.weight = d['U_B1M009']
-            product.total_weight = d['U_B1M010']
-            product.color = d['U_B1M011']
-            product.rolls_no = d['U_B1M012']
-            product.hand = d['U_B1M013']
-            product.printing_color = d['U_B1M014']
-            product.folding = d['U_B1M015']
-            product.welding = d['U_B1M016']
-            product.welding_type = d['U_B1M017']
-            product.guarantee = d['U_B1M018']
-            product.handling_type = d['U_B1M019']
-            product.handling_direction =d['U_B1M020']
-            product.application = d['U_B1M021']
-            # product.roll_status = d['U_B1M022']
-            product.packing = d['U_B1M023']
-            product.core_width = d['U_B1M026']
-            product.roll_width = d['U_B1M027']
-            product.packing_weight = d['U_B1M028']
-
+            product = frappe.new_doc('Product Order')
+            ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx",
+                       "docstatus", "compan_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
+            for value in product_setting.as_dict():
+                if value not in ignored:
+                    setattr(product, value, sap_products[i].get(product_setting.get(value)))
             product.insert()
-    # frappe.throw("out ")
-    frappe.db.commit()
-    return {'success': True}
+        if progress:
+            progress_percent = (i + 1)/len(sap_products) * 100
+            frappe.publish_progress(percent=progress_percent, title="Getting Products From Sap", doctype="Product Order")
+    try:
+        frappe.db.commit()
+        return {'success': True}
+    except:
+        return {'success': False}

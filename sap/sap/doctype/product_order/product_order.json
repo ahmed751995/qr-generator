@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "PO-.######",
+ "autoname": "B.#####",
  "creation": "2022-03-03 11:16:53.013679",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -20,16 +20,16 @@
   "item_serial",
   "weight",
   "density",
-  "cover_type",
+  "packing_type",
   "extensions",
   "color",
   "hand",
-  "printing_color",
+  "printing_colors",
   "folding",
   "welding",
+  "bullet_no",
   "column_break_10",
   "welding_type",
-  "guarantee",
   "handling_type",
   "handling_direction",
   "roll_status",
@@ -49,13 +49,13 @@
   "item_details_section",
   "product_details",
   "section_break_26",
-  "selected_bullet_no",
   "print_selected_bullet",
   "column_break_30",
   "send_to_sap",
   "selected_qr",
   "section_break_31",
-  "selected_product"
+  "selected_product",
+  "amended_from"
  ],
  "fields": [
   {
@@ -91,8 +91,7 @@
    "fieldname": "document_no",
    "fieldtype": "Data",
    "label": "Document No",
-   "read_only": 1,
-   "unique": 1
+   "read_only": 1
   },
   {
    "fieldname": "customer_name",
@@ -236,20 +235,9 @@
    "label": "Print Selected Bullet"
   },
   {
-   "fieldname": "selected_bullet_no",
-   "fieldtype": "Data",
-   "label": "Bullet Number"
-  },
-  {
    "fieldname": "density",
    "fieldtype": "Data",
    "label": "Density",
-   "read_only": 1
-  },
-  {
-   "fieldname": "cover_type",
-   "fieldtype": "Data",
-   "label": "Cover Type",
    "read_only": 1
   },
   {
@@ -271,12 +259,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "printing_color",
-   "fieldtype": "Data",
-   "label": "Number Of Printing Color",
-   "read_only": 1
-  },
-  {
    "fieldname": "folding",
    "fieldtype": "Data",
    "label": "Folding",
@@ -292,13 +274,6 @@
    "fieldname": "welding_type",
    "fieldtype": "Data",
    "label": "Welding Type",
-   "read_only": 1
-  },
-  {
-   "description": "By Month",
-   "fieldname": "guarantee",
-   "fieldtype": "Data",
-   "label": "Guarantee",
    "read_only": 1
   },
   {
@@ -342,11 +317,39 @@
    "fieldtype": "Data",
    "label": "Roll width",
    "read_only": 1
+  },
+  {
+   "fieldname": "bullet_no",
+   "fieldtype": "Data",
+   "label": "Bullet No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "printing_colors",
+   "fieldtype": "Data",
+   "label": "Printing Colors",
+   "read_only": 1
+  },
+  {
+   "fieldname": "packing_type",
+   "fieldtype": "Data",
+   "label": "Packing Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Product Order",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2022-05-30 13:16:38.350046",
+ "modified": "2022-06-01 12:33:38.510039",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

@@ -5,13 +5,6 @@ frappe.require([
 ]);
 
 frappe.ui.form.on('Product Order', {
-    refresh: function(frm) {
-	console.log("here")
-	frm.set_indicator_formatter('indec', function(doc) {
-	    return doc.indec == 'Accepted'? "green": "red";
-	}, frm.doc.indec);
-    },
-    
     generate: function(frm) {
 	let items = parseInt(frm.doc.rolls_no);
 	let index;
@@ -22,7 +15,7 @@ frappe.ui.form.on('Product Order', {
 	    frm.add_child('product_details', {
 		item_quantity: parseFloat(frm.doc.quantity / items),
 		row_no: `${frm.doc.document_no}-${i+1}`,
-		reference: `${frm.doc.length}-${frm.doc.width}-${frm.doc.weight}`
+		reference: `${frm.doc.length}-${frm.doc.width}-${frm.doc.total_weight}`
 	    });
 	}
 	refresh_field('product_details');
@@ -39,18 +32,27 @@ frappe.ui.form.on('Product Order', {
      },
     print_selected_bullet: function(frm) { // stop here
 	doc_is_instantiated(frm);
-	frm.doc.product_details.forEach(product => {
-	    frappe.model.set_value('Product Order Details', product.name,'item_status', "Waiting Quality");
-	});
-	
-	if(frm.doc.__unsaved == 1) {
-	    frm.save().then(() => {
-		print_selected_doc(frm);
+	if(!frm.doc.docstatus)
+	    frm.doc.product_details.forEach(product => {
+		frappe.model.set_value('Product Order Details', product.name,'item_status', "Waiting Quality");
 	    });
-	} else {
-	    print_selected_doc(frm);
-	}
-	
+
+	let d = new frappe.ui.Dialog({
+	    title: 'Enter Bullet Number',
+	    fields: [
+		{label: 'Bullet No',fieldname: 'bullet_no',fieldtype: 'Data'},
+
+	    ],
+	    primary_action_label: 'Print',
+	    primary_action(values) {
+		frm.doc.selected_bullet_no = values.bullet_no;
+		print_selected_doc(frm);
+		
+		d.hide();
+	    }
+	});
+
+	d.show()
 	function print_selected_doc(frm) {
 	    
 	    frm.doc.selected_product = [];

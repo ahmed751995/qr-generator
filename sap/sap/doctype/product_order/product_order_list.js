@@ -3,6 +3,7 @@ frappe.listview_settings['Product Order'] = {
 	listview.page.add_inner_button(__("Get Finished Products"), function(){
 	    frappe.call({
 		method: 'sap.api.get_products_from_sap',
+		args: {'progress': true},
 		callback: function(r) {
 		    if(r.message.success) {
 			frappe.show_alert({
