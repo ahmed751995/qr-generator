@@ -5,7 +5,7 @@ import json
 import time
 
 @frappe.whitelist()
-def get_items_wait_quality(pallet_no='', row_no='', document_no='', start_date='', end_date=''):
+def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date=''):
     """
     return a list of dicts of Product Order Details(child table) joined with Product
     Order(parent table) which there item_status = 'Waiting Quality' filtered on the 
@@ -13,14 +13,13 @@ def get_items_wait_quality(pallet_no='', row_no='', document_no='', start_date='
     items without filter
 
     pallet_no = Product Order Details pallet_no
-    row_no = Product Order Details row_no
     document_no = Product Order document_no
     start_date = the creation date of Product Order Details created on or after the start_date
     end_date = the creation date of Product Order Details created on or before the end_date
     """
     
     query = """
-        SELECT pd.name, pd.row_no, pd.pallet_no, pd.item_quantity, pd.growth_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
+        SELECT pd.name, pd.pallet_no, pd.item_quantity, pd.growth_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
         FROM `tabProduct Order` AS p JOIN `tabProduct Order Details` AS pd 
         ON (p.name = pd.parent) 
         WHERE (pd.item_status='Waiting Quality')
@@ -29,8 +28,6 @@ def get_items_wait_quality(pallet_no='', row_no='', document_no='', start_date='
     if pallet_no:
         query += f" AND pd.pallet_no='{pallet_no}'"
 
-    if row_no:
-        query += f"  AND pd.row_no='{row_no}'"
 
     if document_no:
         query += f" AND p.document_no='{document_no}'"
@@ -101,7 +98,6 @@ def get_products_from_sap(progress=False):
     response = requests.request("GET", product_setting.product_url, headers=headers, data=payload)
     sap_products = json.loads(response.text)["value"]
 
-    
     for i in range(len(sap_products)):
         exists = frappe.db.exists("Product Order", {"document_no": sap_products[i]['DocEntry'], "customer_name": sap_products[i]['CardName']})
         if not exists:
@@ -112,9 +108,7 @@ def get_products_from_sap(progress=False):
                 if value not in ignored:
                     setattr(product, value, sap_products[i].get(product_setting.get(value)))
             product.insert()
-        if progress:
-            progress_percent = (i + 1)/len(sap_products) * 100
-            frappe.publish_progress(percent=progress_percent, title="Getting Products From Sap", doctype="Product Order")
+            
     try:
         frappe.db.commit()
         return {'success': True}

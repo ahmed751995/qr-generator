@@ -13,7 +13,7 @@
  "is_standard": 1,
  "label": "Sap Integration",
  "links": [],
- "modified": "2022-04-28 15:23:01.796898",
+ "modified": "2022-06-01 16:46:40.255302",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Sap Integration",
@@ -29,7 +29,7 @@
   },
   {
    "doc_view": "List",
-   "label": "Product Setting",
+   "label": "Production Setting",
    "link_to": "Product Setting",
    "type": "DocType"
   },

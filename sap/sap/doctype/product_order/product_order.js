@@ -14,8 +14,8 @@ frappe.ui.form.on('Product Order', {
 	for(let i = index; i < items + index; i++) {
 	    frm.add_child('product_details', {
 		item_quantity: parseFloat(frm.doc.quantity / items),
-		row_no: `${frm.doc.document_no}-${i+1}`,
-		reference: `${frm.doc.length}-${frm.doc.width}-${frm.doc.total_weight}`
+		// row_no: `${frm.doc.document_no}-${i+1}`,
+		ref: `${frm.doc.item_serial}-${frm.doc.length}-${frm.doc.width}`
 	    });
 	}
 	refresh_field('product_details');

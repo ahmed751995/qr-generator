@@ -110,7 +110,6 @@ frappe.ui.form.on('Quality Control', {
 		{label: 'End Date',fieldname: 'end_date', fieldtype: 'Date'},
 		{fieldtype: 'Section Break'},
 		{label: 'Document Number', fieldname: 'document_no', fieldtype: 'Data'},
-		{label: 'Row Number', fieldname: 'row_no', fieldtype: 'Data'},
 		{label: 'Pallet Number', fieldname: 'pallet_no', fieldtype: 'Data'},
 	    ],
 	    primary_action_label: 'Filter',
@@ -121,7 +120,6 @@ frappe.ui.form.on('Quality Control', {
 		    method: 'sap.api.get_items_wait_quality',
 		    args: {
 			pallet_no: values.pallet_no || '',
-			row_no: values.row_no || '',
 			start_date: values.start_date || '',
 			end_date: values.end_date || '',
 			document_no: values.document_no || ''
@@ -183,7 +181,6 @@ function update_items_table(frm, items) {
     frm.doc.product_items = [];
     items.forEach(item => {
 	frm.add_child('product_items', {
-	    row_no: item.row_no,
 	    pallet_no: item.pallet_no,
 	    quantity: item.item_quantity,
 	    growth_weight: item.growth_weight,

@@ -6,7 +6,6 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "row_no",
   "pallet_no",
   "quantity",
   "growth_weight",
@@ -32,13 +31,6 @@
   "item_name"
  ],
  "fields": [
-  {
-   "columns": 1,
-   "fieldname": "row_no",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Row no"
-  },
   {
    "columns": 1,
    "fieldname": "growth_weight",
@@ -75,7 +67,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Item Status",
-   "options": "Open\nWaited\nPrinted\nWaiting Quality\nInspected\nSent to SAP"
+   "options": "Open\nWaiting Quality\nInspected\nSent to SAP"
   },
   {
    "columns": 1,
@@ -181,7 +173,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-06-01 14:43:43.454646",
+ "modified": "2022-06-01 16:37:56.486138",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Quality Control Details",

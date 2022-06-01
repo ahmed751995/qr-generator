@@ -10,7 +10,6 @@ class ProductOrder(Document):
             self.selected_product = []
             for item in self.product_details:
                 data = {
-                    'row_no': item.row_no,
                     'document_no': self.document_no,
                     'customer_no': self.customer_no,
                     'customer_name': self.customer_name,
