@@ -12,11 +12,14 @@
   "item_group",
   "column_break_3",
   "customer_no",
+  "code",
   "customer_name",
   "item_information_section",
   "quantity",
   "length",
   "width",
+  "sorder",
+  "shift",
   "item_serial",
   "weight",
   "density",
@@ -28,6 +31,7 @@
   "folding",
   "welding",
   "pallet_no",
+  "item_type",
   "column_break_10",
   "welding_type",
   "handling_type",
@@ -67,7 +71,7 @@
   {
    "fieldname": "weight",
    "fieldtype": "Data",
-   "label": "Weight",
+   "label": "Net Weight",
    "read_only": 1
   },
   {
@@ -109,22 +113,19 @@
    "description": "Meter",
    "fieldname": "length",
    "fieldtype": "Data",
-   "label": "Length",
-   "read_only": 1
+   "label": "Length"
   },
   {
    "description": "Centimeter",
    "fieldname": "width",
    "fieldtype": "Data",
-   "label": "Width",
-   "read_only": 1
+   "label": "Width"
   },
   {
    "description": "Micron",
    "fieldname": "thickness",
    "fieldtype": "Data",
-   "label": "Thickness",
-   "read_only": 1
+   "label": "Thickness"
   },
   {
    "fieldname": "core_type",
@@ -141,7 +142,7 @@
   {
    "fieldname": "total_weight",
    "fieldtype": "Data",
-   "label": "Total Weight",
+   "label": "Gross Weight",
    "read_only": 1
   },
   {
@@ -344,12 +345,35 @@
    "fieldname": "print_selected_pallet",
    "fieldtype": "Button",
    "label": "Print Selected Pallet"
+  },
+  {
+   "fieldname": "item_type",
+   "fieldtype": "Data",
+   "label": "Item Type"
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sorder",
+   "fieldtype": "Data",
+   "label": "SOrder",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Data",
+   "label": "Shift",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-06-01 14:41:45.471081",
+ "modified": "2022-06-14 11:01:07.773120",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

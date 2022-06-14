@@ -33,10 +33,10 @@
   "pallet_no",
   "color",
   "rolls_no",
-  "column_break_21",
   "hand",
   "printing_colors",
   "folding",
+  "column_break_21",
   "welding",
   "welding_type",
   "handling_type",
@@ -52,7 +52,10 @@
   "production_type",
   "weight_type",
   "life_time",
-  "jambo_roll_no"
+  "jambo_roll_no",
+  "code",
+  "sorder",
+  "shift"
  ],
  "fields": [
   {
@@ -86,7 +89,7 @@
    "label": "Item Serial"
   },
   {
-   "default": "Quantity",
+   "default": "QuantityKG",
    "fieldname": "quantity",
    "fieldtype": "Data",
    "label": "Quantity"
@@ -149,13 +152,13 @@
    "default": "NetWeight",
    "fieldname": "weight",
    "fieldtype": "Data",
-   "label": "Weight"
+   "label": "Net weight"
   },
   {
    "default": "GrossWeight",
    "fieldname": "total_weight",
    "fieldtype": "Data",
-   "label": "Total Weight"
+   "label": "Gross Weight"
   },
   {
    "default": "Color",
@@ -314,7 +317,7 @@
    "label": "CompanyDB"
   },
   {
-   "default": "https://htpc20847p01.cloudiax.com:50000/b1s/v1/SQLQueries('GetFinishedProd')/List",
+   "default": "https://htpc20847p01.cloudiax.com:50000/b1s/v1/SQLQueries('SemiProdQuery')/List",
    "fieldname": "product_url",
    "fieldtype": "Data",
    "label": "Finished Product URL"
@@ -330,12 +333,30 @@
    "fieldname": "pallet_no",
    "fieldtype": "Data",
    "label": "Pallet No"
+  },
+  {
+   "default": "Code",
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "Code"
+  },
+  {
+   "default": "SOrder",
+   "fieldname": "sorder",
+   "fieldtype": "Data",
+   "label": "Sorder"
+  },
+  {
+   "default": "Shift",
+   "fieldname": "shift",
+   "fieldtype": "Data",
+   "label": "Shift"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-06-01 14:42:31.595134",
+ "modified": "2022-06-14 10:55:36.716264",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Setting",

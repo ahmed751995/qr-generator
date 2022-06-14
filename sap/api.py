@@ -99,7 +99,7 @@ def get_products_from_sap(progress=False):
     sap_products = json.loads(response.text)["value"]
 
     for i in range(len(sap_products)):
-        exists = frappe.db.exists("Product Order", {"document_no": sap_products[i]['DocEntry'], "customer_name": sap_products[i]['CardName']})
+        exists = frappe.db.exists("Product Order", {"document_no": sap_products[i]['DocEntry'], "code": sap_products[i]['Code']})
         if not exists:
             product = frappe.new_doc('Product Order')
             ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx",
