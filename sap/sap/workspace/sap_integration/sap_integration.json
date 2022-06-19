@@ -13,7 +13,7 @@
  "is_standard": 1,
  "label": "Sap Integration",
  "links": [],
- "modified": "2022-06-01 16:46:40.255302",
+ "modified": "2022-06-19 16:33:52.649511",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Sap Integration",
@@ -43,6 +43,12 @@
    "doc_view": "List",
    "label": "Quality Control",
    "link_to": "Quality Control",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "List",
+   "label": "Post Product",
+   "link_to": "Post Product Setting",
    "type": "DocType"
   }
  ]

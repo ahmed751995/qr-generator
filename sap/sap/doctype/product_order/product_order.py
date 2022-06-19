@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from sap.qr_generator import get_qr
+from sap.api import send_product_to_sap
 
 class ProductOrder(Document):
 	def before_save(self):
@@ -18,3 +19,10 @@ class ProductOrder(Document):
                 }
                 
                 item.qr_code = get_qr(data)
+
+            send_product_to_sap(self.name)
+
+            
+
+
+        

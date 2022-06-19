@@ -19,7 +19,7 @@ def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date
     """
     
     query = """
-        SELECT pd.name, pd.pallet_no, pd.item_quantity, pd.growth_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
+        SELECT pd.name, pd.pallet_no, pd.item_quantity, pd.gross_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
         FROM `tabProduct Order` AS p JOIN `tabProduct Order Details` AS pd 
         ON (p.name = pd.parent) 
         WHERE (pd.item_status='Waiting Quality')
@@ -114,3 +114,60 @@ def get_products_from_sap(progress=False):
         return {'success': True}
     except:
         return {'success': False}
+
+
+
+def send_product_to_sap(product_name):
+    post_product_setting = frappe.get_doc("Post Product Setting").as_dict()
+
+    login_url = post_product_setting["login_url"]
+    password = post_product_setting["password"]
+    username = post_product_setting["user_name"]
+    company_db = post_product_setting["company_db"]
+    url = post_product_setting["product_url"]
+
+    session_id = session_login(login_url, company_db, username, password)
+    
+    ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx","docstatus", "compan_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
+    
+    product = frappe.get_doc('Product Order', product_name)
+    data = {
+        "DocType": "dDocument_Items",
+        "DocDate": str(product.creation.date()),
+        "DocumentLines": [
+            {
+                "Quantity": product.quantity,
+                "BaseType": 202,
+                "BaseEntry": 122 #unknown
+            }
+        ]
+    }
+    batch_number = []
+    for item in product.as_dict()["product_details"]:
+        batch = {}
+        batch["BatchNumber"] = item.name
+        batch["AddmisionDate"] = str(item.get("creation").date())
+        batch["Quantity"] = item.get("item_quantity") or ''
+        batch["InternalSerialNumber"] = product.get("sorder") or ''
+        batch["ManufacturerSerialNumber"] = product.customer_name
+        batch["Location"] = item.get("pallet_no") or ''
+        for value in post_product_setting:
+            if value not in ignored:
+                batch[post_product_setting[value]] = product.get(value) or ''
+        batch[post_product_setting["gross_weight"]] = item.get("gross_weight") or ''
+        batch[post_product_setting["net_weight"]] = item.get("net_weight") or ''
+
+        batch_number.append(batch)
+
+    data["DocumentLines"][0]["BatchNumbers"] = batch_number
+
+
+    print(data)
+    headers = {
+        'Cookie': f'B1SESSION={session_id}'
+    }
+    # payload = json.dumps(data)
+    # response = requests.request("POST", url, headers=headers, data=payload)
+
+    # print(response.text)
+

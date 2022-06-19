@@ -15,7 +15,7 @@
   "print_qr",
   "item_status",
   "item_quantity",
-  "growth_weight",
+  "gross_weight",
   "qt_inspection",
   "qr_code"
  ],
@@ -50,12 +50,6 @@
    "in_list_view": 1,
    "label": "Item Status",
    "options": "Open\nWaited\nWaiting Quality\nInspected\nSent to SAP"
-  },
-  {
-   "columns": 1,
-   "fieldname": "growth_weight",
-   "fieldtype": "Data",
-   "label": "Growth Weight"
   },
   {
    "fieldname": "qr_code",
@@ -101,12 +95,18 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Item Serial - Length - Width"
+  },
+  {
+   "columns": 1,
+   "fieldname": "gross_weight",
+   "fieldtype": "Data",
+   "label": "Gross Weight"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-06-01 16:34:16.323889",
+ "modified": "2022-06-19 15:20:13.842074",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order Details",
