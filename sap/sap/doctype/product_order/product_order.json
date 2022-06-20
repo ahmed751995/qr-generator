@@ -21,6 +21,7 @@
   "sorder",
   "shift",
   "item_serial",
+  "weight_type",
   "weight",
   "density",
   "packing_type",
@@ -368,12 +369,18 @@
    "fieldtype": "Data",
    "label": "Shift",
    "read_only": 1
+  },
+  {
+   "fieldname": "weight_type",
+   "fieldtype": "Data",
+   "label": "Weight Type",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-06-14 11:01:07.773120",
+ "modified": "2022-06-20 11:02:37.915146",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

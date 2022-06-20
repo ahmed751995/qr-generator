@@ -103,7 +103,7 @@ def get_products_from_sap(progress=False):
         if not exists:
             product = frappe.new_doc('Product Order')
             ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx",
-                       "docstatus", "compan_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
+                       "docstatus", "company_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
             for value in product_setting.as_dict():
                 if value not in ignored:
                     setattr(product, value, sap_products[i].get(product_setting.get(value)))
@@ -128,7 +128,7 @@ def send_product_to_sap(product_name):
 
     session_id = session_login(login_url, company_db, username, password)
     
-    ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx","docstatus", "compan_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
+    ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx","docstatus", "company_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
     
     product = frappe.get_doc('Product Order', product_name)
     data = {
@@ -136,38 +136,52 @@ def send_product_to_sap(product_name):
         "DocDate": str(product.creation.date()),
         "DocumentLines": [
             {
-                "Quantity": product.quantity,
                 "BaseType": 202,
                 "BaseEntry": 122 #unknown
             }
         ]
     }
     batch_number = []
+    total_quantity = 0
+    
     for item in product.as_dict()["product_details"]:
         batch = {}
         batch["BatchNumber"] = item.name
         batch["AddmisionDate"] = str(item.get("creation").date())
-        batch["Quantity"] = item.get("item_quantity") or ''
-        batch["InternalSerialNumber"] = product.get("sorder") or ''
+
+        if product.get("weight_type") == "وزن صافى":
+            batch["Quantity"] = item["net_weight"]
+            total_quantity += int(item["net_weight"])
+        else:
+            batch["Quantity"] = item["gross_weight"]
+            total_quantity += int(item["gross_weight"])
+       
+        batch["InternalSerialNumber"] = product.get("sorder")
         batch["ManufacturerSerialNumber"] = product.customer_name
         batch["Location"] = item.get("pallet_no") or ''
         for value in post_product_setting:
             if value not in ignored:
                 batch[post_product_setting[value]] = product.get(value) or ''
-        batch[post_product_setting["gross_weight"]] = item.get("gross_weight") or ''
         batch[post_product_setting["net_weight"]] = item.get("net_weight") or ''
+        batch[post_product_setting["gross_weight"]] = item.get("gross_weight") or ''
 
         batch_number.append(batch)
 
     data["DocumentLines"][0]["BatchNumbers"] = batch_number
+    data["DocumentLines"][0]["Quantity"] = total_quantity
 
 
-    print(data)
+
     headers = {
         'Cookie': f'B1SESSION={session_id}'
     }
-    # payload = json.dumps(data)
-    # response = requests.request("POST", url, headers=headers, data=payload)
-
-    # print(response.text)
+    payload = json.dumps(data)
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+    print(response.status_code)
+    print(type(response.status_code))
+    if response.status_code == 201:
+        return {"success": True}
+    else:
+        return {"success": False}
 
