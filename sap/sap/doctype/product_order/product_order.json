@@ -9,8 +9,9 @@
  "field_order": [
   "order_information_section",
   "document_no",
-  "item_group",
+  "item_no",
   "column_break_3",
+  "item_group",
   "customer_no",
   "code",
   "customer_name",
@@ -35,6 +36,7 @@
   "item_type",
   "column_break_10",
   "welding_type",
+  "jambo_roll_no",
   "handling_type",
   "handling_direction",
   "roll_status",
@@ -350,7 +352,8 @@
   {
    "fieldname": "item_type",
    "fieldtype": "Data",
-   "label": "Item Type"
+   "label": "Item Type",
+   "read_only": 1
   },
   {
    "fieldname": "code",
@@ -375,12 +378,23 @@
    "fieldtype": "Data",
    "label": "Weight Type",
    "read_only": 1
+  },
+  {
+   "fieldname": "jambo_roll_no",
+   "fieldtype": "Data",
+   "label": "Jambo Roll No"
+  },
+  {
+   "fieldname": "item_no",
+   "fieldtype": "Data",
+   "label": "Item No",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-06-20 11:02:37.915146",
+ "modified": "2022-06-23 13:37:54.190906",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

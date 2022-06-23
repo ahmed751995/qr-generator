@@ -4,6 +4,7 @@ import frappe
 import json
 import time
 
+
 @frappe.whitelist()
 def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date=''):
     """
@@ -17,7 +18,7 @@ def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date
     start_date = the creation date of Product Order Details created on or after the start_date
     end_date = the creation date of Product Order Details created on or before the end_date
     """
-    
+
     query = """
         SELECT pd.name, pd.pallet_no, pd.item_quantity, pd.gross_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
         FROM `tabProduct Order` AS p JOIN `tabProduct Order Details` AS pd 
@@ -27,7 +28,6 @@ def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date
 
     if pallet_no:
         query += f" AND pd.pallet_no='{pallet_no}'"
-
 
     if document_no:
         query += f" AND p.document_no='{document_no}'"
@@ -39,7 +39,7 @@ def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date
         end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
         end_date += datetime.timedelta(days=1)
         query += f" AND pd.creation<='{end_date}'"
-    
+
     items = frappe.db.sql(query, as_dict=1)
     return items
 
@@ -79,6 +79,7 @@ def session_login(url, company_db, username, password):
     session_id = json.loads(response.text)['SessionId']
     return session_id
 
+
 @frappe.whitelist()
 def get_products_from_sap(progress=False):
 
@@ -87,28 +88,31 @@ def get_products_from_sap(progress=False):
     password = product_setting.password
     username = product_setting.user_name
     company_db = product_setting.company_db
-    
+
     session_id = session_login(login_url, company_db, username, password)
 
-    payload={}
+    payload = {}
     headers = {
         'Cookie': f'B1SESSION={session_id}'
     }
 
-    response = requests.request("GET", product_setting.product_url, headers=headers, data=payload)
+    response = requests.request(
+        "GET", product_setting.product_url, headers=headers, data=payload)
     sap_products = json.loads(response.text)["value"]
 
     for i in range(len(sap_products)):
-        exists = frappe.db.exists("Product Order", {"document_no": sap_products[i]['DocEntry'], "code": sap_products[i]['Code']})
+        exists = frappe.db.exists("Product Order", {
+                                  "document_no": sap_products[i]['DocEntry'], "code": sap_products[i]['Code']})
         if not exists:
             product = frappe.new_doc('Product Order')
             ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx",
                        "docstatus", "company_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
             for value in product_setting.as_dict():
                 if value not in ignored:
-                    setattr(product, value, sap_products[i].get(product_setting.get(value)))
+                    setattr(product, value, sap_products[i].get(
+                        product_setting.get(value)))
             product.insert()
-            
+
     try:
         frappe.db.commit()
         return {'success': True}
@@ -116,8 +120,8 @@ def get_products_from_sap(progress=False):
         return {'success': False}
 
 
-
-def send_product_to_sap(product_name):
+@frappe.whitelist()
+def send_product_to_sap(product_name, items=None):
     post_product_setting = frappe.get_doc("Post Product Setting").as_dict()
 
     login_url = post_product_setting["login_url"]
@@ -127,9 +131,10 @@ def send_product_to_sap(product_name):
     url = post_product_setting["product_url"]
 
     session_id = session_login(login_url, company_db, username, password)
-    
-    ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx","docstatus", "company_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
-    
+
+    ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx",
+               "docstatus", "company_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
+
     product = frappe.get_doc('Product Order', product_name)
     data = {
         "DocType": "dDocument_Items",
@@ -137,51 +142,63 @@ def send_product_to_sap(product_name):
         "DocumentLines": [
             {
                 "BaseType": 202,
-                "BaseEntry": 122 #unknown
+                "BaseEntry": product.document_no
             }
         ]
     }
     batch_number = []
     total_quantity = 0
-    
-    for item in product.as_dict()["product_details"]:
+    if items:
+        items_list = [frappe.get_doc(
+            "Product Order Details", item).as_dict() for item in json.loads(items)]
+    else:
+        items_list = product.as_dict()["product_details"]
+
+    for item in items_list:
         batch = {}
         batch["BatchNumber"] = item.name
         batch["AddmisionDate"] = str(item.get("creation").date())
 
         if product.get("weight_type") == "وزن صافى":
-            batch["Quantity"] = item["net_weight"]
-            total_quantity += int(item["net_weight"])
+            try:
+                batch["Quantity"] = item["net_weight"]
+                total_quantity += float(item["net_weight"])
+            except TypeError:
+                return {"success": False,
+                        "message": "make sure you set all items Net Weight"}
         else:
-            batch["Quantity"] = item["gross_weight"]
-            total_quantity += int(item["gross_weight"])
-       
+            try:
+                batch["Quantity"] = item["gross_weight"]
+                total_quantity += float(item["gross_weight"])
+            except TypeError:
+                return {"success": False,
+                        "message": "make sure you set all items Gross Weight"}
+
         batch["InternalSerialNumber"] = product.get("sorder")
         batch["ManufacturerSerialNumber"] = product.customer_name
         batch["Location"] = item.get("pallet_no") or ''
         for value in post_product_setting:
             if value not in ignored:
                 batch[post_product_setting[value]] = product.get(value) or ''
-        batch[post_product_setting["net_weight"]] = item.get("net_weight") or ''
-        batch[post_product_setting["gross_weight"]] = item.get("gross_weight") or ''
+        batch[post_product_setting["net_weight"]
+              ] = item.get("net_weight") or ''
+        batch[post_product_setting["gross_weight"]
+              ] = item.get("gross_weight") or ''
 
         batch_number.append(batch)
 
     data["DocumentLines"][0]["BatchNumbers"] = batch_number
     data["DocumentLines"][0]["Quantity"] = total_quantity
 
-
-
     headers = {
         'Cookie': f'B1SESSION={session_id}'
     }
     payload = json.dumps(data)
     response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
-    print(response.status_code)
-    print(type(response.status_code))
+    resp = json.loads(response.text)
+    print(resp)
+    # print(resp['error'])
     if response.status_code == 201:
         return {"success": True}
     else:
-        return {"success": False}
-
+        return {"success": False, "message": resp['error']['message']["value"]}

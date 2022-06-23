@@ -21,14 +21,28 @@ frappe.ui.form.on('Product Order', {
 	refresh_field('product_details');
     },
      send_to_sap: function(frm) {
-	 frm.doc.product_details.forEach((product) => {
-	     frappe.model.set_value('Product Order Details', product.name,'item_status', "Sent to SAP")
+	 // frm.doc.product_details.forEach((product) => {
+	 //     frappe.model.set_value('Product Order Details', product.name,'item_status', "Sent to SAP")
 	     // product.item_status = "Sent to SAP";
-	 });
+	 // });
 	 // Object.keys(frm.doc).forEach(doc => {
 	 //     frm.set_df_property(doc, "read_only", 1);
 	 // });
-	 refresh_field("product_details");
+		  
+	 // refresh_field("product_details");
+	 let items = frm.get_selected().product_details;
+	 frappe.call({
+	     'method': 'sap.api.send_product_to_sap',
+	     args: {
+		 'product_name': frm.doc.name,
+		 'items': JSON.stringify(items)
+	     },
+	     callback: function(r) {
+		 if(!r.message.success) {
+		     frappe.throw(r.message.message)
+		 }
+	     }
+	 });	  
      },
     print_selected_pallet: function(frm) { // stop here
 	doc_is_instantiated(frm);

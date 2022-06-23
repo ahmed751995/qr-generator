@@ -6,25 +6,22 @@ from frappe.model.document import Document
 from sap.qr_generator import get_qr
 from sap.api import send_product_to_sap
 
+
 class ProductOrder(Document):
-        def before_save(self):
-                self.selected_product = []
-                for item in self.product_details:
-                        data = {
-                                'document_no': self.document_no,
-                                'customer_no': self.customer_no,
-                                'customer_name': self.customer_name,
-                                'quantity': item.item_quantity,
-                                'length': self.length
-                        }
-                
-                        item.qr_code = get_qr(data)
+    def before_save(self):
+        self.selected_product = []
+        for item in self.product_details:
+            data = {
+                'document_no': self.document_no,
+                'customer_no': self.customer_no,
+                'customer_name': self.customer_name,
+                'quantity': item.item_quantity,
+                'length': self.length
+            }
 
-        def on_submit(self):
-                resp = send_product_to_sap(self.name)
-                if not resp["success"]:
-                        frappe.throw("Can't send to sap something wrong!!!")
-            
+            item.qr_code = get_qr(data)
 
-
-        
+    def on_submit(self):
+        resp = send_product_to_sap(self.name)
+        if not resp["success"]:
+            frappe.throw(resp["message"])
