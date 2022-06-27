@@ -135,7 +135,7 @@ def send_product_to_sap(product_name, items=None):
     ignored = {"name", "owner", "creation", "modified", "modified_by", "parent", "parentfield", "parenttype", "idx",
                "docstatus", "company_db", "user_name", "password", "default_scaler", "doctype", "login_url", "product_url"}
 
-    product = frappe.get_doc('Product Order', product_name)
+    product = frappe.db.get('Product Order', product_name)
     data = {
         "DocType": "dDocument_Items",
         "DocDate": str(product.creation.date()),
@@ -149,41 +149,50 @@ def send_product_to_sap(product_name, items=None):
     batch_number = []
     total_quantity = 0
     if items:
-        items_list = [frappe.get_doc(
-            "Product Order Details", item).as_dict() for item in json.loads(items)]
+        items_list = [frappe.db.get("Product Order Details", item)
+                      for item in json.loads(items)]
     else:
-        items_list = product.as_dict()["product_details"]
+        items = frappe.db.get_list("Product Order Details", filters={'item_status': [
+                                   '!=', 'Sent to SAP'], 'parent': product.name})
+        if not items:
+            return {"success": True}
+
+        items_list = [frappe.db.get("Product Order Details", item)
+                      for item in items]
 
     for item in items_list:
         batch = {}
-        batch["BatchNumber"] = item.name
+        batch["BatchNumber"] = str(product.document_no) + "/" + str(item.idx)
         batch["AddmisionDate"] = str(item.get("creation").date())
 
         if product.get("weight_type") == "وزن صافى":
             try:
                 batch["Quantity"] = item["net_weight"]
                 total_quantity += float(item["net_weight"])
-            except TypeError:
+            except:
                 return {"success": False,
                         "message": "make sure you set all items Net Weight"}
         else:
             try:
                 batch["Quantity"] = item["gross_weight"]
                 total_quantity += float(item["gross_weight"])
-            except TypeError:
+            except:
                 return {"success": False,
                         "message": "make sure you set all items Gross Weight"}
 
         batch["InternalSerialNumber"] = product.get("sorder")
         batch["ManufacturerSerialNumber"] = product.customer_name
-        batch["Location"] = item.get("pallet_no") or ''
+        batch["Location"] = str(product.document_no) + \
+            '/' + str(item.get("pallet_no", ''))
+
         for value in post_product_setting:
             if value not in ignored:
-                batch[post_product_setting[value]] = product.get(value) or ''
+                batch[post_product_setting[value]] = product.get(value, '')
+
         batch[post_product_setting["net_weight"]
-              ] = item.get("net_weight") or ''
+              ] = item.get("net_weight", '')
         batch[post_product_setting["gross_weight"]
-              ] = item.get("gross_weight") or ''
+              ] = item.get("gross_weight", '')
 
         batch_number.append(batch)
 

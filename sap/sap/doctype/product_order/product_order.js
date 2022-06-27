@@ -5,6 +5,21 @@ frappe.require([
 ]);
 
 frappe.ui.form.on('Product Order', {
+    before_submit: function(frm) {
+	// frm.doc.product_details.forEach((product) => {
+	//     frappe.model.set_value('Product Order Details', product.name,'item_status', "Sent to SAP");
+	// });
+
+    },
+    onload: function(frm) {
+	// set items to read only if sent to sap
+	frm.doc.product_details.forEach((product) => {
+	    if(product.item_status == "Sent to SAP")
+		product.docstatus = 1;
+	});
+	refresh_field("product_details");
+    },
+    
     generate: function(frm) {
 	let items = parseInt(frm.doc.rolls_no);
 	let index;
@@ -20,30 +35,41 @@ frappe.ui.form.on('Product Order', {
 	}
 	refresh_field('product_details');
     },
-     send_to_sap: function(frm) {
-	 // frm.doc.product_details.forEach((product) => {
-	 //     frappe.model.set_value('Product Order Details', product.name,'item_status', "Sent to SAP")
-	     // product.item_status = "Sent to SAP";
-	 // });
-	 // Object.keys(frm.doc).forEach(doc => {
-	 //     frm.set_df_property(doc, "read_only", 1);
-	 // });
-		  
-	 // refresh_field("product_details");
-	 let items = frm.get_selected().product_details;
-	 frappe.call({
-	     'method': 'sap.api.send_product_to_sap',
-	     args: {
-		 'product_name': frm.doc.name,
-		 'items': JSON.stringify(items)
-	     },
-	     callback: function(r) {
-		 if(!r.message.success) {
-		     frappe.throw(r.message.message)
-		 }
-	     }
-	 });	  
-     },
+    send_to_sap: function(frm) {
+	
+	doc_is_instantiated(frm);
+	
+	frappe.show_progress('Sending items to Sap..', 20, 100, 'Please wait');
+	
+	let items = frm.get_selected().product_details;
+
+	if(!items) frappe.throw("Select items to be sent");
+	
+	items.forEach(item => {
+	    if(locals["Product Order Details"][item].item_status == "Sent to SAP") frappe.throw("Some items already sent to SAP");
+	})
+	frappe.call({
+	    async: false,
+	    'method': 'sap.api.send_product_to_sap',
+	    args: {
+		'product_name': frm.doc.name,
+		'items': JSON.stringify(items)
+	    },
+	    callback: function(r) {
+		frappe.show_progress('Sending items to Sap..', 100, 100, 'Please wait');
+		frappe.hide_progress()
+		if(!r.message.success) {
+		    frappe.throw(r.message.message)
+		}
+		else {
+		    for(let item of items) {
+			frappe.model.set_value("Product Order Details", item, "item_status", "Sent to SAP");
+		    }
+		}
+	    }
+	});
+	frm.save().then(() => frm.trigger("onload"));
+    },
     print_selected_pallet: function(frm) { // stop here
 	doc_is_instantiated(frm);
 	if(!frm.doc.docstatus)
@@ -116,7 +142,7 @@ frappe.ui.form.on('Product Order Details', {
     print_qr: function(frm) {
 	doc_is_instantiated(frm);
 	let row = frm.selected_doc.idx;
-	if(frm.selected_doc.item_status !== "Inspected") {
+	if(frm.selected_doc.item_status !== "Inspected" && !frm.selected_doc.docstatus) {
 	    frappe.model.set_value('Product Order Details', frm.selected_doc.name,'item_status', "Waiting Quality")
 		.then(() => {
 		    if(frm.doc.__unsaved == 1) {

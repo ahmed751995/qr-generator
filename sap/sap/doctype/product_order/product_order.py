@@ -21,7 +21,10 @@ class ProductOrder(Document):
 
             item.qr_code = get_qr(data)
 
-    def on_submit(self):
+    def before_submit(self):
         resp = send_product_to_sap(self.name)
         if not resp["success"]:
             frappe.throw(resp["message"])
+        else:
+            for item in self.product_details:
+                item.item_status = "Sent to SAP"

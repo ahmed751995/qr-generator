@@ -10,6 +10,8 @@
   "order_information_section",
   "document_no",
   "item_no",
+  "shift",
+  "shift_employee",
   "column_break_3",
   "item_group",
   "customer_no",
@@ -20,7 +22,6 @@
   "length",
   "width",
   "sorder",
-  "shift",
   "item_serial",
   "weight_type",
   "weight",
@@ -370,8 +371,7 @@
   {
    "fieldname": "shift",
    "fieldtype": "Data",
-   "label": "Shift",
-   "read_only": 1
+   "label": "Shift"
   },
   {
    "fieldname": "weight_type",
@@ -389,12 +389,17 @@
    "fieldtype": "Data",
    "label": "Item No",
    "read_only": 1
+  },
+  {
+   "fieldname": "shift_employee",
+   "fieldtype": "Data",
+   "label": "Shift Employee"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-06-23 13:37:54.190906",
+ "modified": "2022-06-23 17:14:15.918830",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",
