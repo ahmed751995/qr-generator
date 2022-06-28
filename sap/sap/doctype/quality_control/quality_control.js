@@ -2,6 +2,14 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Quality Control', {
+    onload: function(frm) {
+	frm.fields_dict['product_items'].grid.get_field('qt_inspection').get_query = function(doc, cdt, cdn) {
+	    var child = locals[cdt][cdn];
+	    return {filters:[
+                ['item_code', '=', child['item_serial']]
+            ]}
+	}
+    },
     refresh: function(frm) {
 	frappe.call({
 	    method: 'sap.api.get_items_wait_quality',
@@ -150,6 +158,7 @@ frappe.ui.form.on("Quality Control Details", {
 	frm.reload_doc();
     },
     qt_inspection: function(frm) {
+	frappe.route_hooks['item_code'] = frm.selected_doc.item_serial
 	if(frm.selected_doc.qt_inspection)
 	    frappe.call({
 		method: 'frappe.client.get',
@@ -163,7 +172,7 @@ frappe.ui.form.on("Quality Control Details", {
 		}
 	    });
 	frm.reload_doc();
-    }
+    },
 });
 
 function update_quality(name, status, qt_inspection="") {
@@ -194,7 +203,7 @@ function update_items_table(frm, items) {
 	    product_quantity: item.quantity,
 	    product_length: item.length,
 	    product_width: item.product_width,
-	    item_serial: item.items_serial,
+	    item_serial: item.item_serial,
 	    product_weight: item.weight,
 	    product_thickness: item.thickness,
 	    product_core_type: item.core_type,
