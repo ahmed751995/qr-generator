@@ -100,7 +100,10 @@ def get_products_from_sap(progress=False):
 
     response = requests.request(
         "GET", product_setting.product_url, headers=headers, data=payload)
-    sap_products = json.loads(response.text)["value"]
+    try:
+        sap_products = json.loads(response.text)["value"]
+    except KeyError:
+        frappe.throw("No values Provided check your URL")
 
     for i in range(len(sap_products)):
         exists = frappe.db.exists("Product Order", {
