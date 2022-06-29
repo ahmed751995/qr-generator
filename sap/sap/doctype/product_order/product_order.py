@@ -12,11 +12,11 @@ class ProductOrder(Document):
         self.selected_product = []
         for item in self.product_details:
             data = {
-                'document_no': self.document_no,
                 'customer_no': self.customer_no,
                 'customer_name': self.customer_name,
-                'quantity': item.item_quantity,
-                'length': self.length
+                'item_no': self.item_serial,
+                'product_no': self.item_no,
+                'item_type': self.item_type
             }
 
             item.qr_code = get_qr(data)

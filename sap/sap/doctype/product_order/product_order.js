@@ -13,6 +13,9 @@ frappe.ui.form.on('Product Order', {
     },
     onload: function(frm) {
 	// set items to read only if sent to sap
+	frm.page.sidebar.toggle(false)
+	if(!cur_frm.doc.docstatus)
+	    frm.set_value("shift_employee", frappe.user.name);
 	frm.doc.product_details.forEach((product) => {
 	    if(product.item_status == "Sent to SAP")
 		product.docstatus = 1;
@@ -28,7 +31,6 @@ frappe.ui.form.on('Product Order', {
 	
 	for(let i = index; i < items + index; i++) {
 	    frm.add_child('product_details', {
-		item_quantity: parseFloat(frm.doc.quantity / items),
 		// row_no: `${frm.doc.document_no}-${i+1}`,
 		ref: `${frm.doc.item_serial}-${frm.doc.length}-${frm.doc.width}`
 	    });

@@ -6,17 +6,17 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "pallet_no",
   "ref",
+  "pallet_no",
   "net_weight",
-  "scaler",
-  "measure",
-  "quality_status",
-  "print_qr",
-  "item_status",
-  "item_quantity",
   "gross_weight",
+  "measure",
+  "jambo_roll_no",
+  "quality_status",
+  "item_status",
+  "print_qr",
   "qt_inspection",
+  "scaler",
   "qr_code"
  ],
  "fields": [
@@ -24,7 +24,6 @@
    "columns": 1,
    "fieldname": "measure",
    "fieldtype": "Button",
-   "in_list_view": 1,
    "label": "Measure"
   },
   {
@@ -38,7 +37,6 @@
    "columns": 1,
    "fieldname": "scaler",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Scaler",
    "options": "Scaler"
   },
@@ -79,11 +77,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "item_quantity",
-   "fieldtype": "Data",
-   "label": "Item Quantity"
-  },
-  {
    "columns": 1,
    "fieldname": "pallet_no",
    "fieldtype": "Data",
@@ -100,13 +93,19 @@
    "columns": 1,
    "fieldname": "gross_weight",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Gross Weight"
+  },
+  {
+   "fieldname": "jambo_roll_no",
+   "fieldtype": "Data",
+   "label": "Jambo Roll No"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-06-19 15:20:13.842074",
+ "modified": "2022-06-29 18:07:37.845212",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order Details",

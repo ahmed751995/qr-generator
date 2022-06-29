@@ -20,7 +20,7 @@ def get_items_wait_quality(pallet_no='', start_date='', end_date='', item_serial
     """
 
     query = """
-        SELECT pd.name, pd.pallet_no, pd.item_quantity, pd.gross_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
+        SELECT pd.name, pd.pallet_no, pd.gross_weight, pd.net_weight, pd.quality_status, pd.item_status, p.document_no, p.item_group, p.customer_no, p.customer_name, p.quantity, p.length, p.width, p.item_serial, p.weight, p.thickness, p.core_type, p.core_weight, p.total_weight, p.application 
         FROM `tabProduct Order` AS p JOIN `tabProduct Order Details` AS pd 
         ON (p.name = pd.parent) 
         WHERE (pd.item_status='Waiting Quality')
@@ -126,7 +126,7 @@ def get_products_from_sap(progress=False):
 
 
 @frappe.whitelist()
-def send_product_to_sap(product_name, items=None):
+def send_product_to_sap(product_name, items=None, shift_employee=''):
     post_product_setting = frappe.get_doc("Post Product Setting").as_dict()
 
     login_url = post_product_setting["login_url"]
@@ -198,6 +198,8 @@ def send_product_to_sap(product_name, items=None):
               ] = item.get("net_weight", '')
         batch[post_product_setting["gross_weight"]
               ] = item.get("gross_weight", '')
+        batch[post_product_setting["jambo_roll_no"]
+              ] = item.get("jambo_roll_no", '')
 
         batch_number.append(batch)
 

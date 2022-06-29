@@ -210,7 +210,6 @@ function update_items_table(frm, items) {
     items.forEach(item => {
 	frm.add_child('product_items', {
 	    pallet_no: item.pallet_no,
-	    quantity: item.item_quantity,
 	    gross_weight: item.total_weight,
 	    net_weight: item.net_weight,
 	    item_status: item.item_status,

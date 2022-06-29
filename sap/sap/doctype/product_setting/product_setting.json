@@ -52,7 +52,6 @@
   "production_type",
   "weight_type",
   "life_time",
-  "jambo_roll_no",
   "code",
   "sorder",
   "shift"
@@ -299,12 +298,6 @@
    "label": "Life Time"
   },
   {
-   "default": "JamboRollNo",
-   "fieldname": "jambo_roll_no",
-   "fieldtype": "Data",
-   "label": "Jambo Roll No"
-  },
-  {
    "default": "RollQuantity",
    "fieldname": "rolls_no",
    "fieldtype": "Data",
@@ -356,7 +349,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-06-19 16:45:31.824160",
+ "modified": "2022-06-29 16:09:12.628851",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Setting",

@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{document_no}-{code}",
+ "autoname": "format:{item_no}-{code}",
  "creation": "2022-03-03 11:16:53.013679",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -14,6 +14,8 @@
   "shift_employee",
   "column_break_3",
   "item_group",
+  "item_serial",
+  "item_type",
   "customer_no",
   "code",
   "customer_name",
@@ -22,7 +24,6 @@
   "length",
   "width",
   "sorder",
-  "item_serial",
   "weight_type",
   "weight",
   "density",
@@ -34,10 +35,8 @@
   "folding",
   "welding",
   "pallet_no",
-  "item_type",
   "column_break_10",
   "welding_type",
-  "jambo_roll_no",
   "handling_type",
   "handling_direction",
   "roll_status",
@@ -81,7 +80,7 @@
   {
    "fieldname": "product_details",
    "fieldtype": "Table",
-   "label": "Product Details",
+   "label": "Items Details",
    "options": "Product Order Details"
   },
   {
@@ -92,7 +91,7 @@
   {
    "fieldname": "item_serial",
    "fieldtype": "Data",
-   "label": "Item Serial",
+   "label": "Item No",
    "read_only": 1
   },
   {
@@ -196,7 +195,7 @@
    "collapsible": 1,
    "fieldname": "item_information_section",
    "fieldtype": "Section Break",
-   "label": "Item Information"
+   "label": "Product Information"
   },
   {
    "fieldname": "section_break_26",
@@ -370,8 +369,9 @@
   },
   {
    "fieldname": "shift",
-   "fieldtype": "Data",
-   "label": "Shift"
+   "fieldtype": "Link",
+   "label": "Shift",
+   "options": "Shift Type"
   },
   {
    "fieldname": "weight_type",
@@ -380,14 +380,9 @@
    "read_only": 1
   },
   {
-   "fieldname": "jambo_roll_no",
-   "fieldtype": "Data",
-   "label": "Jambo Roll No"
-  },
-  {
    "fieldname": "item_no",
    "fieldtype": "Data",
-   "label": "Item No",
+   "label": "Product No",
    "read_only": 1
   },
   {
@@ -399,7 +394,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-06-29 14:20:17.615262",
+ "modified": "2022-06-29 18:57:14.318771",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",
