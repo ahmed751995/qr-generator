@@ -6,7 +6,7 @@ import time
 
 
 @frappe.whitelist()
-def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date=''):
+def get_items_wait_quality(pallet_no='', start_date='', end_date='', item_serial='', document_no=''):
     """
     return a list of dicts of Product Order Details(child table) joined with Product
     Order(parent table) which there item_status = 'Waiting Quality' filtered on the 
@@ -26,11 +26,10 @@ def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date
         WHERE (pd.item_status='Waiting Quality')
         """
 
+    if item_serial:
+        query += f" AND p.item_serial='{item_serial}'"
     if pallet_no:
         query += f" AND pd.pallet_no='{pallet_no}'"
-
-    if document_no:
-        query += f" AND p.document_no='{document_no}'"
 
     if start_date:
         query += f" AND pd.creation>='{start_date}'"
@@ -39,6 +38,9 @@ def get_items_wait_quality(pallet_no='', document_no='', start_date='', end_date
         end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
         end_date += datetime.timedelta(days=1)
         query += f" AND pd.creation<='{end_date}'"
+
+    if document_no:
+        query += f" AND p.document_no='{document_no}'"
 
     items = frappe.db.sql(query, as_dict=1)
     return items

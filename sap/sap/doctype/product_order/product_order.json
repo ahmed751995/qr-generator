@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "B.#####",
+ "autoname": "format:{document_no}-{code}",
  "creation": "2022-03-03 11:16:53.013679",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -399,7 +399,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-06-23 17:14:15.918830",
+ "modified": "2022-06-29 14:20:17.615262",
  "modified_by": "Administrator",
  "module": "Sap",
  "name": "Product Order",

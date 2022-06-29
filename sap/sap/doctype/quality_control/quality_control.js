@@ -1,5 +1,23 @@
 // Copyright (c) 2022, ahmed and contributors
 // For license information, please see license.txt
+frappe.provide("erpnext.public");
+frappe.provide("erpnext.controllers");
+
+// erpnext.quality_inspection = erpnext.quality_inspection.extends({
+//     onload: function(frm) {
+// 	console.log("hi")
+//     }
+// })
+
+frappe.ui.form.on('Quality Inspection', {
+    onload_post_render: function(frm) {
+	if(frm.is_new() && frappe.get_prev_route()[1] == "Quality Control") {
+	    try {
+		frm.set_value("item_code", frappe._from_link.doc.item_serial );
+	    }catch(e) {}
+	}
+    }
+})
 
 frappe.ui.form.on('Quality Control', {
     onload: function(frm) {
@@ -117,8 +135,9 @@ frappe.ui.form.on('Quality Control', {
 		{fieldtype: 'Column Break' },
 		{label: 'End Date',fieldname: 'end_date', fieldtype: 'Date'},
 		{fieldtype: 'Section Break'},
-		{label: 'Document Number', fieldname: 'document_no', fieldtype: 'Data'},
+		{label: 'Document No', fieldname: 'document_no', fieldtype: 'Data'},
 		{label: 'Pallet Number', fieldname: 'pallet_no', fieldtype: 'Data'},
+		{label: 'Item Serial', fieldname: 'item_serial', fieldtype: 'Data'},
 	    ],
 	    primary_action_label: 'Filter',
 	    primary_action(values) {
@@ -130,7 +149,8 @@ frappe.ui.form.on('Quality Control', {
 			pallet_no: values.pallet_no || '',
 			start_date: values.start_date || '',
 			end_date: values.end_date || '',
-			document_no: values.document_no || ''
+			item_serial: values.item_serial ||'',
+			document_no: values.document_no ||''
 		    },
 		    callback: function(r) {
 			let  items = r.message;
@@ -158,7 +178,6 @@ frappe.ui.form.on("Quality Control Details", {
 	frm.reload_doc();
     },
     qt_inspection: function(frm) {
-	frappe.route_hooks['item_code'] = frm.selected_doc.item_serial
 	if(frm.selected_doc.qt_inspection)
 	    frappe.call({
 		method: 'frappe.client.get',
@@ -192,17 +211,16 @@ function update_items_table(frm, items) {
 	frm.add_child('product_items', {
 	    pallet_no: item.pallet_no,
 	    quantity: item.item_quantity,
-	    growth_weight: item.growth_weight,
+	    gross_weight: item.total_weight,
 	    net_weight: item.net_weight,
 	    item_status: item.item_status,
 	    document_no: item.document_no,
 	    item_group: item.item_group,
-	    item_no: item.item_no,
 	    customer_no: item.customer_no,
 	    customer_name: item.customer_name,
 	    product_quantity: item.quantity,
 	    product_length: item.length,
-	    product_width: item.product_width,
+	    product_width: item.width,
 	    item_serial: item.item_serial,
 	    product_weight: item.weight,
 	    product_thickness: item.thickness,
@@ -210,7 +228,6 @@ function update_items_table(frm, items) {
 	    product_core_weight: item.core_weight,
 	    product_total_weight: item.total_weight,
 	    application: item.application,
-	    scaler: item.scaler,
 	    item_name: item.name,
 	});
     });
